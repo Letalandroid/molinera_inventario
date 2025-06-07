@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { type Product } from "../types";
 import api from "../api/api";
 import ProductTable from "../components/ProductTable";
-import ProductNavbar from "../components/ProductNavbar";
+import MainNavbar from "../components/MainNavbar";
 import { Container, Typography } from "@mui/material";
 
 export default function ProductList() {
@@ -18,7 +18,7 @@ export default function ProductList() {
 
   return (
     <>
-      <ProductNavbar />
+      <MainNavbar />
       <Container sx={{ mt: 4 }}>
         <Typography variant="h5" gutterBottom>
           Lista de Productos

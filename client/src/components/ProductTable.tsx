@@ -8,6 +8,7 @@ import {
   Paper,
   TableContainer,
   Button,
+  Box,
 } from "@mui/material";
 import { type Product } from "../types";
 import { useNavigate } from "react-router-dom";
@@ -24,11 +25,12 @@ export default function ProductTable({ products }: Props) {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Título</TableCell>
-            <TableCell>Descripción</TableCell>
-            <TableCell>Precio</TableCell>
-            <TableCell>Stock</TableCell>
-            <TableCell>Acciones</TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Título</TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Descripción</TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Precio</TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Stock</TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Estado</TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Acciones</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -38,6 +40,26 @@ export default function ProductTable({ products }: Props) {
               <TableCell>{product.description}</TableCell>
               <TableCell>S/. {product.price}</TableCell>
               <TableCell>{product.stock}</TableCell>
+              <TableCell>
+                <Box
+                  sx={{
+                    backgroundColor: product.isActive
+                      ? "success.main"
+                      : "error.main",
+                    color: "white",
+                    px: 0.8,
+                    py: 0.4,
+                    fontSize: 13,
+                    borderRadius: "5px",
+                    display: "inline-block",
+                    fontWeight: "bold",
+                    textAlign: "center",
+                  }}
+                >
+                  {product.isActive ? "Activo" : "Inactivo"}
+                </Box>
+              </TableCell>
+
               <TableCell>
                 <Button
                   variant="outlined"
