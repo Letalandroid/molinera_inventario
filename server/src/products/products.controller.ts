@@ -13,6 +13,7 @@ import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiHeader } from '@n
 import { ProductsService } from './products.service';
 import { ProductCreate, ProductUpdate } from '../../src/models/Product';
 import { AuthGuard } from '../guards/auth/auth.guard';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 @ApiTags('Products') // Categoría para agrupar los endpoints relacionados con productos
 @Controller('products')
@@ -110,7 +111,7 @@ export class ProductsController {
    * @param id Identificador del producto
    * @returns Un mensaje de satisfaccion por parte de prisma o de error
    */
-  @Delete('delete')
+  @Delete('delete/:id')
   @UseGuards(AuthGuard)
   @ApiBearerAuth()
   @ApiHeader({
@@ -121,15 +122,24 @@ export class ProductsController {
   @ApiOperation({ summary: 'Elimina el producto' }) // Descripción breve del endpoint
   @ApiResponse({ status: 200, description: 'Elimina un producto' }) // Respuesta esperada
   @ApiResponse({ status: 400, description: 'Error al eliminar el producto.' }) // Respuesta en caso de error
-  async deleteProduct(@Body() req: { id: number }) {
+  async deleteProduct(@Param('id') id: string) {
     try {
-      await this.prodService.deleteProduct(req.id);
+      await this.prodService.deleteProduct(parseInt(id));
 
       return {
         res: 'ok',
-        message: `Producto ${req.id} eliminado correctamente`,
+        message: `Producto ${id} eliminado correctamente`,
       };
     } catch (error) {
+
+      if (error instanceof PrismaClientKnownRequestError) {
+        throw new NotFoundException({
+          status: 400,
+          message: `El producto con ID: [${id}] no existe o ya ha sido eliminado.`,
+          error: error.message,
+        });
+      }
+
       throw new NotFoundException({
         status: 400,
         message: `Error al eliminar el producto: ${error}`,
