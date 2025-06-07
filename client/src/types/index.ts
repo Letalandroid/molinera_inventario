@@ -9,12 +9,12 @@ export interface Product {
 }
 
 export interface User {
-  id: number;
+// src/types/User.ts
+  id?: number;
   name: string;
-  dni: string;
   email: string;
-  password: string;
-  role: string;
+  isActive: boolean;
+  createdAt?: string;
 }
 
 export interface UserLogin {
