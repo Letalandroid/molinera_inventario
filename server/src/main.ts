@@ -16,11 +16,15 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Hellen Mabel Molineras y Procesadores')
-    .setDescription('API para Hellen Mabel Molineras y Procesadores S.R.L., Piura 2025')
+    .setDescription(
+      'API para Hellen Mabel Molineras y Procesadores S.R.L., Piura 2025',
+    )
     .setVersion('1.0')
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('docs', app, documentFactory);
+  SwaggerModule.setup('docs', app, documentFactory, {
+    jsonDocumentUrl: 'docs.json',
+  });
 
   app.setGlobalPrefix('api/v1');
   await app.listen(process.env.PORT ?? 3000);
