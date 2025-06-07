@@ -36,7 +36,7 @@ export default function Register() {
 
     try {
       await api.post(`${import.meta.env.VITE_APP_BACK_URL}/auth/register`, formData);
-      navigate("/login"); // redirige tras éxito
+      navigate("/"); // redirige tras éxito
     } catch (err: any) {
       setError(err.response?.data?.message || "Error al registrar");
     }
@@ -44,10 +44,6 @@ export default function Register() {
 
   return (
     <Container maxWidth="sm">
-      <Helmet>
-        <title>Registrar | Inventario Hellen Mabel</title>
-      </Helmet>
-
       <Typography variant="h4" sx={{ mt: 4, mb: 2 }}>
         Registro de Usuario
       </Typography>

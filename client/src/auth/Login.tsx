@@ -17,7 +17,7 @@ export default function Login() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await api.post(`${import.meta.env.VITE_APP_BACK}/auth/login`, form);
+      const res = await api.post(`${import.meta.env.VITE_APP_BACK_URL}/auth/login`, form);
       const token: string = res.data.token;
       login(token);
       navigate("/products");

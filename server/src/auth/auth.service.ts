@@ -42,8 +42,8 @@ export class AuthService {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         // Puedes acceder a error.meta, error.code, etc.
         throw new NotFoundException({
-          message: 'Error creating user',
-          error: error.meta,
+          message: 'Correo electrónico ya registrado',
+          error: error.message,
         });
       } else if (error instanceof Prisma.PrismaClientValidationError) {
         // Error desconocido de Prisma
