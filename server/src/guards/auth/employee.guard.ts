@@ -9,7 +9,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class EmployeeGuard implements CanActivate {
   constructor(private readonly jwt: JwtService) {}
 
   canActivate(context: ExecutionContext): boolean | Promise<boolean> {
@@ -27,7 +27,7 @@ export class AuthGuard implements CanActivate {
     try {
       const payload = this.jwt.verify(token);
 
-      if (!payload.role || payload.role !== 'ADMINISTRADOR') {
+      if (!payload.role || (payload.role !== 'ADMINISTRADOR' && payload.role !== 'EMPLEADO')) {
         throw new ForbiddenException('No tienes permisos suficientes.');
       }
 

@@ -3,7 +3,7 @@ import {
   UnauthorizedException,
   ForbiddenException,
 } from '@nestjs/common';
-import { AuthGuard } from './auth.guard';
+import { AuthGuard } from './admin.guard';
 import { JwtService } from '@nestjs/jwt';
 
 describe('AuthGuard', () => {

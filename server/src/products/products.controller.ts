@@ -12,7 +12,7 @@ import {
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiHeader } from '@nestjs/swagger';
 import { ProductsService } from './products.service';
 import { ProductCreate, ProductUpdate } from '../../src/models/Product';
-import { AuthGuard } from '../guards/auth/auth.guard';
+import { EmployeeGuard } from '../guards/auth/employee.guard';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 @ApiTags('Products') // Categoría para agrupar los endpoints relacionados con productos
@@ -25,6 +25,7 @@ export class ProductsController {
    * @returns toda la lista de productos
    */
   @Get('getAll')
+  @UseGuards(EmployeeGuard)
   @ApiOperation({ summary: 'Obtener todos los productos' }) // Descripción breve del endpoint
   @ApiResponse({
     status: 200,
@@ -36,6 +37,7 @@ export class ProductsController {
   }
 
   @Get('/:id')
+  @UseGuards(EmployeeGuard)
   @ApiOperation({ summary: 'Obtener un producto individual' }) // Descripción breve del endpoint
   @ApiResponse({
     status: 200,
@@ -60,7 +62,7 @@ export class ProductsController {
    * @returns Un mensaje de satisfaccion
    */
   @Post('create')
-  @UseGuards(AuthGuard)
+  @UseGuards(EmployeeGuard)
   @ApiBearerAuth()
     @ApiHeader({
       name: 'Authorization'
@@ -84,8 +86,8 @@ export class ProductsController {
    * @param p Producto a actualizar
    * @returns Mensaje satisfactorio/error
    */
-  @Put('update/:id')
-  @UseGuards(AuthGuard)
+  @Put(':id')
+  @UseGuards(EmployeeGuard)
   @ApiBearerAuth()
   @ApiHeader({
     name: 'Authorization',
@@ -102,6 +104,7 @@ export class ProductsController {
       throw new NotFoundException({
         status: 400,
         message: `Error al actualizar el producto: ${error}`,
+        p
       });
     }
   }
@@ -112,7 +115,7 @@ export class ProductsController {
    * @returns Un mensaje de satisfaccion por parte de prisma o de error
    */
   @Delete('delete/:id')
-  @UseGuards(AuthGuard)
+  @UseGuards(EmployeeGuard)
   @ApiBearerAuth()
   @ApiHeader({
     name: 'Authorization',
