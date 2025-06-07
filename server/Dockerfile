@@ -14,4 +14,4 @@ RUN pnpm run build
 
 EXPOSE 3000
 
-CMD sh -c "sleep 5 && pnpm run prisma:migrate && pnpm start"
+CMD sh -c "sleep 5 && pnpm run prisma:migrate && pnpm run prisma:seed && pnpm start"
