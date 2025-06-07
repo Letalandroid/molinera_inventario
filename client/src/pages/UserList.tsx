@@ -11,7 +11,9 @@ export default function UserList() {
   useEffect(() => {
     api
       .get(`${import.meta.env.VITE_APP_BACK_URL}/users/getAll`)
-      .then((res) => setUsers(res.data))
+      .then((res) => {
+        setUsers(res.data);
+      })
       .catch((err) => console.error(err));
   }, []);
 

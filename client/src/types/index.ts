@@ -14,6 +14,9 @@ export interface User {
   email: string;
   role: string;
   isActive: boolean;
+  Profile?: {
+    name: string;
+  };
 }
 
 export interface UserLogin {

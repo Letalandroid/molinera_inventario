@@ -8,7 +8,11 @@ export class UsersService {
   constructor(private readonly prismaService: PrismaService) {}
 
   getAllUsers() {
-    return this.prismaService.user.findMany();
+    return this.prismaService.user.findMany({
+      include: {
+        Profile: true,
+      },
+    });
   }
 
   getProfileById(id: number) {
