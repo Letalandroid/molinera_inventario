@@ -1,0 +1,40 @@
+
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: mirko
+      POSTGRES_PASSWORD: mirko
+      POSTGRES_DB: molinera_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: postgres://mirko:mirko@postgres:5432/molinera_db
+      JWT_SECRET: test
+      JWT_EXPIRES_IN: 1h
+      FRONT_URL: http://localhost # está bien que sea localhost, frontend accede en el host
+    depends_on:
+      - postgres
+    ports:
+      - "3000:3000"
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    environment:
+      VITE_APP_BACK_URL: http://backend:3000/api/v1 # Importante que frontend apunte al backend dentro de la red docker
+    ports:
+      - "80:80"
+    depends_on:
+      - server
+
+volumes:
+  pgdata:
