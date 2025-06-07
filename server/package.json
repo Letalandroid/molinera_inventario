@@ -9,6 +9,7 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
+    "prisma:reset": "npx prisma migrate reset --schema=prisma/schema.prisma",
     "prisma:migrate": "npx prisma migrate dev --name init",
     "prisma:generate": "prisma generate",
     "prisma:seed": "node dist/prisma/seed.js",
