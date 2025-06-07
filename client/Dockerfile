@@ -21,6 +21,7 @@ FROM nginx:alpine
 
 # Copiar los archivos build de la etapa anterior al directorio nginx
 COPY --from=build /app/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copiar configuración nginx si quieres (opcional)
 # COPY nginx.conf /etc/nginx/nginx.conf
