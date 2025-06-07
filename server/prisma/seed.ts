@@ -1,7 +1,25 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Role } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
+  await prisma.user.create({
+    data: {
+      id: 1,
+      email: 'mirko@mirko.com',
+      password: '$2b$10$C6n9oGZ87FbTsZ.cEvCuLuXicKWEKnnMgJbQsRaGqrqC/RMHuOz7S', // mirkomirko
+      role: Role.ADMINISTRADOR,
+      isActive: true,
+    },
+  });
+
+  await prisma.profile.create({
+    data: {
+      user_id: 1,
+      name: 'Mirko',
+      dni: '12345678',
+    },
+  });
+
   // Crear productos
   await prisma.product.createMany({
     data: [
