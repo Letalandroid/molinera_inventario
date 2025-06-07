@@ -11,15 +11,13 @@ export default function UserManagement() {
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
+    handleUpdateUser();
+  }, []);
+
+  const handleUpdateUser = () => {
     api.get(`${import.meta.env.VITE_APP_BACK_URL}/users/getAll`).then((res) => {
       setUsers(res.data);
     });
-  }, []);
-
-  const handleUpdateUser = (updatedUser: User) => {
-    setUsers((prev) =>
-      prev.map((u) => (u.id === updatedUser.id ? updatedUser : u))
-    );
   };
 
   if (user?.role !== "ADMINISTRADOR") {

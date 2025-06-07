@@ -9,13 +9,17 @@ export default function UserList() {
   const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
+    handleUpdateUser();
+  }, []);
+
+  const handleUpdateUser = () => {
     api
       .get(`${import.meta.env.VITE_APP_BACK_URL}/users/getAll`)
       .then((res) => {
         setUsers(res.data);
       })
       .catch((err) => console.error(err));
-  }, []);
+  };
 
   return (
     <>
@@ -24,7 +28,7 @@ export default function UserList() {
         <Typography variant="h5" gutterBottom>
           Lista de Usuarios
         </Typography>
-        <UserTable users={users} />
+        <UserTable users={users} onUpdate={handleUpdateUser} />
       </Container>
     </>
   );

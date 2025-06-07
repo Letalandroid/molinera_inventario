@@ -20,7 +20,7 @@ import type { User } from "../types";
 
 interface Props {
   users: User[];
-  onUpdate: (updatedUser: User) => void;
+  onUpdate: () => void;
 }
 
 export default function UserTable({ users, onUpdate }: Props) {
@@ -36,8 +36,16 @@ export default function UserTable({ users, onUpdate }: Props) {
 
   const handleSave = async (id: number) => {
     try {
-      const res = await api.put(`${import.meta.env.VITE_APP_BACK_URL}/users/${id}`, tempData);
-      onUpdate(res.data);
+      const res = await api.put(
+        `${import.meta.env.VITE_APP_BACK_URL}/users/${id}`,
+        tempData
+      );
+
+      if (res.status === 200) {
+        onUpdate();
+      } else {
+        console.error("Error al actualizar usuario", res.data);
+      }
     } catch (err) {
       console.error("Error al actualizar usuario", err);
     } finally {
@@ -56,11 +64,23 @@ export default function UserTable({ users, onUpdate }: Props) {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell><b>Nombre</b></TableCell>
-            <TableCell><b>Correo</b></TableCell>
-            <TableCell><b>Rol</b></TableCell>
-            <TableCell><b>Estado</b></TableCell>
-            {isAdmin && <TableCell><b>Acciones</b></TableCell>}
+            <TableCell>
+              <b>Nombre</b>
+            </TableCell>
+            <TableCell>
+              <b>Correo</b>
+            </TableCell>
+            <TableCell>
+              <b>Rol</b>
+            </TableCell>
+            <TableCell>
+              <b>Estado</b>
+            </TableCell>
+            {isAdmin && (
+              <TableCell>
+                <b>Acciones</b>
+              </TableCell>
+            )}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -99,7 +119,9 @@ export default function UserTable({ users, onUpdate }: Props) {
                   ) : (
                     <Box
                       sx={{
-                        backgroundColor: u.isActive ? "success.main" : "error.main",
+                        backgroundColor: u.isActive
+                          ? "success.main"
+                          : "error.main",
                         color: "white",
                         px: 1,
                         py: 0.5,
@@ -120,7 +142,10 @@ export default function UserTable({ users, onUpdate }: Props) {
                         <SaveIcon />
                       </IconButton>
                     ) : (
-                      <IconButton onClick={() => handleEditClick(u)} size="small">
+                      <IconButton
+                        onClick={() => handleEditClick(u)}
+                        size="small"
+                      >
                         <EditIcon />
                       </IconButton>
                     )}
