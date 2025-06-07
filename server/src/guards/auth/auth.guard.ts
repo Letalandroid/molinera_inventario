@@ -27,7 +27,7 @@ export class AuthGuard implements CanActivate {
     try {
       const payload = this.jwt.verify(token);
 
-      if (!payload.role || payload.role !== 'GERENTE') {
+      if (!payload.role || payload.role !== 'ADMINISTRADOR') {
         throw new ForbiddenException('No tienes permisos suficientes.');
       }
 
