@@ -78,7 +78,7 @@ export class AuthService {
     if (u) {
       const authPassw = await comparePassword(user.password, u?.password);
 
-      if (authPassw) {
+      if (authPassw && u.isActive) {
         const profile = await this.prisma.profile.findUnique({
           where: {
             user_id: u.id,
@@ -100,7 +100,7 @@ export class AuthService {
       } else {
         throw new UnauthorizedException({
           status: 401,
-          message: 'Password incorrect',
+          message: 'Password incorrect or user not active',
         });
       }
     } else {
