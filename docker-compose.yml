@@ -1,4 +1,3 @@
-version: '3.8'
 
 services:
   postgres:
@@ -12,10 +11,10 @@ services:
     ports:
       - "5432:5432"
 
-  backend:
+  server:
     build:
-      context: .
-      dockerfile: server/Dockerfile
+      context: ./server
+      dockerfile: Dockerfile
     environment:
       DATABASE_URL: postgres://mirko:mirko@postgres:5432/molinera_db
       JWT_SECRET: test
@@ -26,16 +25,16 @@ services:
     ports:
       - "3000:3000"
 
-  frontend:
+  client:
     build:
-      context: .
-      dockerfile: client/Dockerfile
+      context: ./client
+      dockerfile: Dockerfile
     environment:
       VITE_APP_BACK_URL: http://backend:3000/api/v1 # Importante que frontend apunte al backend dentro de la red docker
     ports:
       - "80:80"
     depends_on:
-      - backend
+      - server
 
 volumes:
   pgdata:
