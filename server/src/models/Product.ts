@@ -48,7 +48,7 @@ export class ProductCreate {
 
   @ApiProperty({ description: 'Precio del producto', required: false })
   @IsNotEmpty()
-  @IsString()
+  @IsNumber()
   price?: number;
 
   @ApiProperty({
@@ -56,7 +56,7 @@ export class ProductCreate {
     required: false,
   })
   @IsNotEmpty()
-  @IsString()
+  @IsNumber()
   stock?: number;
 
   @IsNotEmpty()
