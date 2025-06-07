@@ -3,7 +3,7 @@ import { useEffect, useState, useContext } from "react";
 import { Container, Typography } from "@mui/material";
 import api from "../api/api";
 import { AuthContext } from "../context/AuthContext";
-import UserTable from "../pages/UserTable";
+import UserTable from "../components/UserTable";
 import type { User } from "../types";
 
 export default function UserManagement() {

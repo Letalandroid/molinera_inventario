@@ -3,7 +3,7 @@ import { type User } from "../types";
 import api from "../api/api";
 import MainNavbar from "../components/MainNavbar";
 import { Container, Typography } from "@mui/material";
-import UserTable from "./UserTable";
+import UserTable from "../components/UserTable";
 
 export default function UserList() {
   const [users, setUsers] = useState<User[]>([]);
