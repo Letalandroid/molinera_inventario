@@ -18,7 +18,7 @@ model Product {
   title        String
   description  String?  @db.VarChar(1500)
   price        Float?
-  stock        Int
+  stock        Int // maximo, min
   createdAt    DateTime @default(now())
   isActive     Boolean  @default(true)
 }
@@ -41,6 +41,6 @@ model Profile {
 }
 
 enum Role {
-  ADMINISTRADOR
+  ADMINISTRADOR // Inhabilitar usuarios y generar reportes del movimiento de productos
   EMPLEADO
 }
