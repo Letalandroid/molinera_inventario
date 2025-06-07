@@ -1,4 +1,5 @@
 import {
+  IsBoolean,
   IsNotEmpty,
   IsNumber,
   IsString,
@@ -47,6 +48,10 @@ export class User {
   @IsNotEmpty()
   @MinLength(8)
   password: string = '';
+
+  @ApiProperty({ description: 'Si el usuario se encuentra activo', minLength: 8 })
+  @IsBoolean()
+  isActive: boolean = false;
 
   @ApiProperty({ description: 'Rol del usuario', required: false })
   role?: Role;
