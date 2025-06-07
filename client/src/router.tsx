@@ -4,6 +4,8 @@ import ProductList from "./pages/ProductList";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
 import ProductForm from "./pages/ProductForm";
+import UserList from "./pages/UserList";
+import UserProfile from "./pages/UserProfile";
 
 export default function App() {
   return (
@@ -34,6 +36,24 @@ export default function App() {
           element={
             <PrivateRoute>
               <ProductForm />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/users"
+          element={
+            <PrivateRoute>
+              <UserList />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/profile/:id"
+          element={
+            <PrivateRoute>
+              <UserProfile />
             </PrivateRoute>
           }
         />

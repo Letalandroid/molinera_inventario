@@ -1,4 +1,3 @@
-// src/components/MainNavbar.tsx
 import {
   AppBar,
   Toolbar,
@@ -9,10 +8,12 @@ import {
   Box,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useState, type MouseEvent } from "react";
+import { useState, type MouseEvent, useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 export default function MainNavbar() {
   const navigate = useNavigate();
+  const { user, isAuthenticated } = useContext(AuthContext);
 
   const [anchorElProducts, setAnchorElProducts] = useState<null | HTMLElement>(
     null
@@ -53,7 +54,13 @@ export default function MainNavbar() {
           </Menu>
         </Box>
 
-        {/* Aquí puedes agregar más botones/menús como "Usuarios", "Reportes", etc. */}
+        {isAuthenticated && user?.role === "ADMINISTRADOR" && (
+          <Box ml={2}>
+            <Button color="inherit" onClick={() => navigate("/users")}>
+              Usuarios
+            </Button>
+          </Box>
+        )}
       </Toolbar>
     </AppBar>
   );
