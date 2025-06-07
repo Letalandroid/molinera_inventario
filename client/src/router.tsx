@@ -1,17 +1,24 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./auth/Login";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
+import PrivateRoute from "./components/PrivateRoutes";
 import ProductList from "./pages/ProductList";
-import EditProduct from "./pages/EditProduct";
+import Login from "./auth/Login";
 import Register from "./auth/Register";
 
-export default function RouterApp() {
+export default function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/products" element={<ProductList />} />
-        <Route path="/products/edit/:id" element={<EditProduct />} />
+
+        <Route
+          path="/products"
+          element={
+            <PrivateRoute>
+              <ProductList />
+            </PrivateRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
