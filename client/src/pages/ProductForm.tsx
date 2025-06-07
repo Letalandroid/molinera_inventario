@@ -65,7 +65,7 @@ export default function ProductForm() {
 
     const payload = {
       ...product,
-      price: Number(product.price),
+      price: Number(Number(product.price).toFixed(2)), // redondea y convierte a número
       stock: Number(product.stock),
     };
 
