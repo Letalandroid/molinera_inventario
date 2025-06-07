@@ -3,7 +3,7 @@ import { TextField, Button, Box } from "@mui/material";
 import api from "../api/api";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { type UserLogin, type User } from "../types";
+import { type UserLogin } from "../types";
 
 export default function Login() {
   const [form, setForm] = useState<UserLogin>({ email: "", password: "" });
@@ -17,10 +17,9 @@ export default function Login() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await api.post(`${import.meta.env.VITE_APP_BACK_URL}/auth/login`, form);
-      const user: User = res.data.user;
+      const res = await api.post(`${import.meta.env.VITE_APP_BACK}/auth/login`, form);
       const token: string = res.data.token;
-      login(user, token);
+      login(token);
       navigate("/products");
     } catch (error) {
       alert("Error en el login" + error);

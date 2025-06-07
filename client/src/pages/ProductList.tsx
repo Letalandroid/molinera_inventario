@@ -8,7 +8,6 @@ import { Container, Typography } from "@mui/material";
 
 export default function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);
-
   useEffect(() => {
     api
       .get(`${import.meta.env.VITE_APP_BACK_URL}/products/getAll`)
