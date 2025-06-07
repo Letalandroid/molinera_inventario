@@ -36,7 +36,7 @@ export class AuthService {
 
       await this.prisma.profile.create({ data: profile });
       return {
-        status: 200,
+        status: 201,
         message: 'User created successfully',
       };
     } catch (error) {

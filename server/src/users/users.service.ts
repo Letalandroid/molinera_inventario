@@ -1,7 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { UserChangeIsActive, UserChangeRole } from '../../src/models/User';
+import {
+  UserChangeIsActive,
+  UserChangeRole,
+  UserData,
+} from '../../src/models/User';
 import { PrismaClientValidationError } from '@prisma/client/runtime/library';
+import { Role } from '@prisma/client';
 
 @Injectable()
 export class UsersService {
@@ -9,6 +14,9 @@ export class UsersService {
 
   getAllUsers() {
     return this.prismaService.user.findMany({
+      orderBy: {
+        id: 'asc',
+      },
       include: {
         Profile: true,
       },
@@ -21,8 +29,8 @@ export class UsersService {
     });
   }
 
-  async changeIsActive(user: UserChangeIsActive) {
-    if (!user || !user.id || user.isActive === undefined) {
+  async changeIsActive(id: number, user: UserChangeIsActive) {
+    if (!id) {
       throw new NotFoundException({
         status: 404,
         message: 'User not found',
@@ -30,8 +38,8 @@ export class UsersService {
     }
 
     const u = await this.prismaService.user.update({
-      where: { id: user.id },
-      data: { isActive: user.isActive },
+      where: { id },
+      data: { isActive: user.isActive || false },
     });
 
     if (!u) {
@@ -47,9 +55,9 @@ export class UsersService {
     };
   }
 
-  async changeRole(user: UserChangeRole) {
+  async changeRole(id: number, user: UserChangeRole) {
     try {
-      if (!user || !user.id || !user.role) {
+      if (!id) {
         throw new NotFoundException({
           status: 404,
           message: 'User not found',
@@ -83,6 +91,50 @@ export class UsersService {
       throw new NotFoundException({
         status: 404,
         message: 'User not found',
+      });
+    }
+  }
+
+  async updateData(id: number, user: UserData) {
+    try {
+      if (!id || !user.role) {
+        throw new NotFoundException({
+          status: 404,
+          message: 'User not found',
+        });
+      }
+
+      const u = await this.prismaService.user.update({
+        where: { id },
+        data: {
+          role: user.role ?? Role.ADMINISTRADOR,
+          isActive: user.isActive ?? false,
+        },
+      });
+
+      if (!u) {
+        throw new NotFoundException({
+          status: 404,
+          message: 'User not found',
+        });
+      }
+
+      return {
+        status: 200,
+        message: `User role changed to ${user.role} successfully`,
+      };
+    } catch (error) {
+      if (error instanceof PrismaClientValidationError) {
+        throw new NotFoundException({
+          status: 404,
+          message: `Invalid role: ${user.role}`,
+        });
+      }
+
+      throw new NotFoundException({
+        status: 404,
+        message: 'User not found',
+        error
       });
     }
   }

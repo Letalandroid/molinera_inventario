@@ -90,3 +90,14 @@ export class UserChangeRole {
   @IsNotEmpty()
   role: Role = Role.EMPLEADO;
 }
+
+export class UserData {
+
+  @ApiProperty({ description: 'Rol del usuario' })
+  @IsNotEmpty()
+  role: Role = Role.EMPLEADO;
+
+  @ApiProperty({ description: 'Estado activo del usuario' })
+  @IsNotEmpty()
+  isActive: boolean = false;
+}
