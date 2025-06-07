@@ -9,8 +9,10 @@ export default function ProductList() {
 
   useEffect(() => {
     api
-      .get("/products/getAll")
-      .then((res) => setProducts(res.data))
+      .get(`${import.meta.env.VITE_APP_BACK_URL}/products/getAll`)
+      .then((res) => {
+        setProducts(res.data);
+      })
       .catch((err) => console.error(err));
   }, []);
 
