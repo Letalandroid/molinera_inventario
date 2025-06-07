@@ -28,7 +28,7 @@ model User {
   email     String    @unique
   password  String
   role      Role      @default(EMPLEADO)
-  isActive  Boolean   @default(true)
+  isActive  Boolean   @default(false)
   createdAt DateTime  @default(now())
   Profile   Profile[]
 }
