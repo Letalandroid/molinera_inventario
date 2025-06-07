@@ -3,6 +3,7 @@ import PrivateRoute from "./components/PrivateRoutes";
 import ProductList from "./pages/ProductList";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
+import ProductForm from "./pages/ProductForm";
 
 export default function App() {
   return (
@@ -16,6 +17,23 @@ export default function App() {
           element={
             <PrivateRoute>
               <ProductList />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/products/create"
+          element={
+            <PrivateRoute>
+              <ProductForm />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/products/edit/:id"
+          element={
+            <PrivateRoute>
+              <ProductForm />
             </PrivateRoute>
           }
         />

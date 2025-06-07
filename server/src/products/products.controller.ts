@@ -86,7 +86,7 @@ export class ProductsController {
    * @param p Producto a actualizar
    * @returns Mensaje satisfactorio/error
    */
-  @Put('update/:id')
+  @Put(':id')
   @UseGuards(EmployeeGuard)
   @ApiBearerAuth()
   @ApiHeader({
@@ -104,6 +104,7 @@ export class ProductsController {
       throw new NotFoundException({
         status: 400,
         message: `Error al actualizar el producto: ${error}`,
+        p
       });
     }
   }
