@@ -46,11 +46,6 @@ export class ProductCreate {
   @IsString()
   description?: string = '';
 
-  @ApiProperty({ description: 'Marca del producto', required: false })
-  @IsNotEmpty()
-  @IsString()
-  brand?: string = '';
-
   @ApiProperty({ description: 'Precio del producto', required: false })
   @IsNotEmpty()
   @IsString()
@@ -64,33 +59,15 @@ export class ProductCreate {
   @IsString()
   stock?: number;
 
+  @IsNotEmpty()
+  @IsBoolean()
+  isActive?: boolean;
+
   @ApiProperty({
     description: 'Fecha de creación del producto',
     required: false,
   })
   createdAt?: Date;
-
-  @ApiProperty({ description: 'Marca del producto', required: false })
-  @IsNotEmpty()
-  @IsString()
-  model?: string = '';
-
-  @ApiProperty({ description: 'Marca del producto', required: false })
-  @IsNotEmpty()
-  @IsString()
-  category?: string = '';
-
-  @ApiProperty({ description: 'Marca del producto', required: false })
-  @IsString()
-  manufacturer?: string = '';
-
-  @ApiProperty({ description: 'Marca del producto', required: false })
-  @IsString()
-  manualUrl?: string = '';
-
-  @IsObject()
-  @IsNotEmpty()
-  specs: Record<string, any> = {};
 }
 
 export class ProductUpdate {
@@ -159,24 +136,3 @@ export class ProductUpdate {
   isActive?: boolean;
 }
 
-export class ProductPay {
-  @ApiProperty({ description: 'ID del producto' })
-  @IsNotEmpty()
-  id: string = '';
-
-  @ApiProperty({ description: 'Título del producto', minLength: 5 })
-  @IsNotEmpty()
-  @IsString()
-  @MinLength(5)
-  title: string = '';
-
-  @ApiProperty({ description: 'Cantidad del producto' })
-  @IsNotEmpty()
-  @IsNumber()
-  quantity: number = 0;
-
-  @ApiProperty({ description: 'Precio unitario del producto' })
-  @IsNotEmpty()
-  @IsNumber()
-  unit_price: number = 0;
-}

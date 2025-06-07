@@ -1,11 +1,7 @@
 import { IsNotEmpty, IsString } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
-import { ProductPay } from "../../src/models/Product";
 
 export class PayData {
-  @ApiProperty({ description: 'Lista de productos a pagar' })
-  @IsNotEmpty()
-  items: ProductPay[] = new Array<ProductPay>();
 
   @ApiProperty({ description: 'Correo electrónico del cliente' })
   @IsString()

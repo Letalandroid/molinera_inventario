@@ -1,9 +1,8 @@
 import { AUTH_PASS, AUTH_USER } from "../config/constants";
-import { ItemsType } from "../../src/types/facturas";
 
 const nodemailer = require("nodemailer");
 
-export const sendPaySuccess = async (prefer_id: string, email: string, items: ItemsType[], pdf: string) => {
+export const sendPaySuccess = async (prefer_id: string, email: string, pdf: string) => {
 
   const content = `
   <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
@@ -12,11 +11,6 @@ export const sendPaySuccess = async (prefer_id: string, email: string, items: It
 
     <h3 style="margin-top: 30px; color: #333;">🛒 Detalle de productos:</h3>
     <ul style="padding-left: 20px;">
-      ${items.map(item => `
-        <li style="margin-bottom: 5px;">
-          <strong>${item.producto}</strong> — ${item.cantidad} x S/ ${parseInt(item.precio_base).toFixed(2)}
-        </li>
-      `).join('')}
     </ul>
 
     <p style="margin-top: 30px;">
