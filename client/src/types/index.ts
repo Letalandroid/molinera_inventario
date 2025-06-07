@@ -8,13 +8,15 @@ export interface Product {
   createdAt: string;
 }
 
+export type Role = "ADMINISTRADOR" | "EMPLEADO";
+
 export interface User {
   id: number;
   name: string;
-  dni: string;
   email: string;
-  password: string;
-  role: string;
+  role: Role;
+  isActive: boolean;
+  Profile?: { name: string };
 }
 
 export interface UserLogin {

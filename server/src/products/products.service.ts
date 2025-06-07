@@ -8,7 +8,11 @@ export class ProductsService {
   constructor(private prisma: PrismaService) {}
 
   getProducts() {
-    return this.prisma.product.findMany();
+    return this.prisma.product.findMany({
+      orderBy: {
+        id: 'asc',
+      },
+    });
   }
 
   async getOneProduct(id: number) {

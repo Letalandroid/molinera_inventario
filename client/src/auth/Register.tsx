@@ -9,7 +9,6 @@ import {
   Alert,
 } from "@mui/material";
 import api from "../api/api";
-import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 
 export default function Register() {

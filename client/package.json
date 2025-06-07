@@ -12,9 +12,11 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^7.1.1",
     "@mui/material": "^5.15.0",
     "axios": "^1.9.0",
     "js-cookie": "^3.0.5",
+    "jwt-decode": "^4.0.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-helmet-async": "^2.0.5",

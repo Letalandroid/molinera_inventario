@@ -9,15 +9,20 @@ import {
   Box,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useState, type MouseEvent } from "react";
+import { useState, useEffect, useContext, type MouseEvent } from "react";
+import { AuthContext } from "../context/AuthContext";
+import api from "../api/api";
 
 export default function MainNavbar() {
   const navigate = useNavigate();
+  const { isAuthenticated, user } = useContext(AuthContext);
 
   const [anchorElProducts, setAnchorElProducts] = useState<null | HTMLElement>(
     null
   );
   const openProducts = Boolean(anchorElProducts);
+
+  const [profile, setProfile] = useState<{ name: string } | null>(null);
 
   const handleProductsClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorElProducts(event.currentTarget);
@@ -31,6 +36,23 @@ export default function MainNavbar() {
     navigate(path);
     handleProductsClose();
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      api
+        .get(
+          `${import.meta.env.VITE_APP_BACK_URL}/users/profile/${parseInt(
+            user?.userId || "0"
+          )}`
+        )
+        .then((res) => {
+          setProfile(res.data);
+        })
+        .catch((err) => {
+          console.error("Error al obtener el perfil:", err);
+        });
+    }
+  }, [isAuthenticated]);
 
   return (
     <AppBar position="static" color="primary">
@@ -53,7 +75,19 @@ export default function MainNavbar() {
           </Menu>
         </Box>
 
-        {/* Aquí puedes agregar más botones/menús como "Usuarios", "Reportes", etc. */}
+        {/* Solo para ADMINISTRADOR */}
+        {user?.role === "ADMINISTRADOR" && (
+          <Button color="inherit" onClick={() => navigate("/users")}>
+            Usuarios
+          </Button>
+        )}
+
+        {/* Mostrar nombre de usuario si está autenticado */}
+        {profile && (
+          <Typography variant="body1" sx={{ ml: 2 }}>
+            Bienvenido, {profile.name}
+          </Typography>
+        )}
       </Toolbar>
     </AppBar>
   );

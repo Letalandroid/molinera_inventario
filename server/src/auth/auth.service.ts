@@ -23,6 +23,7 @@ export class AuthService {
         email: data.email,
         password: data.password,
         role: data.role,
+        isActive: data.isActive ?? false,
       };
 
       const { id } = await this.prisma.user.create({ data: user });
@@ -35,7 +36,7 @@ export class AuthService {
 
       await this.prisma.profile.create({ data: profile });
       return {
-        status: 200,
+        status: 201,
         message: 'User created successfully',
       };
     } catch (error) {
@@ -78,7 +79,7 @@ export class AuthService {
     if (u) {
       const authPassw = await comparePassword(user.password, u?.password);
 
-      if (authPassw) {
+      if (authPassw && u.isActive) {
         const profile = await this.prisma.profile.findUnique({
           where: {
             user_id: u.id,
@@ -100,7 +101,7 @@ export class AuthService {
       } else {
         throw new UnauthorizedException({
           status: 401,
-          message: 'Password incorrect',
+          message: 'Password incorrect or user not active',
         });
       }
     } else {

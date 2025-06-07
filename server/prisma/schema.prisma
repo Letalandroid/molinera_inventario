@@ -14,23 +14,23 @@ datasource db {
 }
 
 model Product {
-  id           Int      @id @default(autoincrement())
-  title        String
-  description  String?  @db.VarChar(1500)
-  price        Float?
-  stock        Int // maximo, min
-  createdAt    DateTime @default(now())
-  isActive     Boolean  @default(true)
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?  @db.VarChar(1500)
+  price       Float?
+  stock       Int // maximo, min
+  createdAt   DateTime @default(now())
+  isActive    Boolean  @default(true)
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  email     String    @unique
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
   password  String
-  role      Role      @default(EMPLEADO)
-  isActive  Boolean   @default(false)
-  createdAt DateTime  @default(now())
-  Profile   Profile[]
+  role      Role     @default(EMPLEADO)
+  isActive  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  Profile   Profile? // Relación uno a uno, sin @relation aquí (no define FK)
 }
 
 model Profile {
