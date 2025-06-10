@@ -75,7 +75,7 @@ export class ProductCreate {
 
   @IsNotEmpty()
   @IsString()
-  location?: string = '';
+  location?: string = 'Default Location';
 
   // @IsNotEmpty()
   // @IsNumber()

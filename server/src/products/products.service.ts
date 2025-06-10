@@ -33,7 +33,7 @@ export class ProductsService {
       createdAt: p.createdAt,
       isActive: p.isActive,
       price: p.price,
-      minStock: p.minStock || 0,
+      minStock: p.minStock || 10,
       location: p.location || '',
     };
 
