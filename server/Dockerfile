@@ -8,7 +8,7 @@ RUN pnpm install
 
 COPY . .
 
-COPY .env ./
+# COPY .env ./
 
 RUN pnpm run build
 
