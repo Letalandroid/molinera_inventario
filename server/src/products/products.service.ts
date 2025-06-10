@@ -33,8 +33,8 @@ export class ProductsService {
       createdAt: p.createdAt,
       isActive: p.isActive,
       price: p.price,
-      minStock: p.minStock || 10,
-      location: p.location || 'Default Location',
+      minStock: p.minStock,
+      location: p.location,
     };
 
     return this.prisma.product.create({ data });

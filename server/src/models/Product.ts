@@ -71,19 +71,19 @@ export class ProductCreate {
 
   @IsNotEmpty()
   @IsNumber()
-  minStock?: number;
+  minStock?: number = 10;
 
   @IsNotEmpty()
   @IsString()
-  location?: string;
+  location?: string = '';
 
-  @IsNotEmpty()
-  @IsNumber()
-  categoryId?: number;
+  // @IsNotEmpty()
+  // @IsNumber()
+  // categoryId?: number;
 
-  @IsNotEmpty()
-  @IsNumber()
-  providerId?: number;
+  // @IsNotEmpty()
+  // @IsNumber()
+  // providerId?: number;
 }
 
 export class ProductUpdate {
@@ -128,12 +128,12 @@ export class ProductUpdate {
   @IsString()
   location?: string;
 
-  @IsNotEmpty()
-  @IsNumber()
-  categoryId?: number;
+  // @IsNotEmpty()
+  // @IsNumber()
+  // categoryId?: number;
 
-  @IsNotEmpty()
-  @IsNumber()
-  providerId?: number;
+  // @IsNotEmpty()
+  // @IsNumber()
+  // providerId?: number;
 }
 
