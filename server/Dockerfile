@@ -10,7 +10,7 @@ COPY . .
 
 # COPY .env ./
 
-RUN pnpm run build
+# RUN pnpm run build
 
 EXPOSE 3000
 
