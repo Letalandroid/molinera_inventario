@@ -68,71 +68,72 @@ export class ProductCreate {
     required: false,
   })
   createdAt?: Date;
+
+  @IsNotEmpty()
+  @IsNumber()
+  minStock?: number;
+
+  @IsNotEmpty()
+  @IsString()
+  location?: string;
+
+  @IsNotEmpty()
+  @IsNumber()
+  categoryId?: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  providerId?: number;
 }
 
 export class ProductUpdate {
-  @ApiProperty({ required: true })
+  @ApiProperty({ description: 'Nombre del producto' })
   @IsNotEmpty()
-  @IsNumber()
-  id: number = 0;
-
-  @ApiProperty({ required: false })
-  @IsOptional()
   @IsString()
-  title?: string;
+  title: string = '';
 
-  @ApiProperty({ required: false })
-  @IsOptional()
+  @ApiProperty({ description: 'Descripción del producto', required: false })
+  @IsNotEmpty()
   @IsString()
-  description?: string;
+  description?: string = '';
 
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsString()
-  brand?: string;
-
-  @ApiProperty({ required: false })
-  @IsOptional()
+  @ApiProperty({ description: 'Precio del producto', required: false })
+  @IsNotEmpty()
   @IsNumber()
   price?: number;
 
-  @ApiProperty({ required: false })
-  @IsOptional()
+  @ApiProperty({
+    description: 'Cantidad en stock del producto',
+    required: false,
+  })
+  @IsNotEmpty()
   @IsNumber()
   stock?: number;
 
-  @ApiProperty({ required: false })
-  @IsOptional()
-  createdAt?: Date;
-
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsString()
-  model?: string;
-
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsString()
-  category?: string;
-
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsString()
-  manufacturer?: string;
-
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsString()
-  manualUrl?: string;
-
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsObject()
-  specs?: Record<string, any>;
-
-  @ApiProperty({ required: false })
-  @IsOptional()
+  @IsNotEmpty()
   @IsBoolean()
   isActive?: boolean;
+
+  @ApiProperty({
+    description: 'Fecha de creación del producto',
+    required: false,
+  })
+  createdAt?: Date;
+
+  @IsNotEmpty()
+  @IsNumber()
+  minStock?: number;
+
+  @IsNotEmpty()
+  @IsString()
+  location?: string;
+
+  @IsNotEmpty()
+  @IsNumber()
+  categoryId?: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  providerId?: number;
 }
 
