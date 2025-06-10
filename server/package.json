@@ -11,7 +11,7 @@
     "start": "nest start",
     "prisma:reset": "npx prisma migrate reset --schema=prisma/schema.prisma --force",
     "prisma:migrate": "npx prisma migrate dev --name init",
-    "prisma:generate": "prisma generate",
+    "prisma:generate": "npx prisma generate",
     "prisma:seed": "node dist/prisma/seed.js",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",

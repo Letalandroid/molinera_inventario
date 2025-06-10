@@ -14,4 +14,4 @@ COPY . .
 
 EXPOSE 3000
 
-CMD sh -c "sleep 5 && pnpm run prisma:migrate && pnpm run prisma:seed && pnpm start"
+CMD sh -c "sleep 5 && pnpm run prisma:migrate && pnpm run build && pnpm run prisma:seed && pnpm start"
