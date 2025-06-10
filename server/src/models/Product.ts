@@ -120,13 +120,13 @@ export class ProductUpdate {
   })
   createdAt?: Date;
 
-  @IsNotEmpty()
+  // @IsNotEmpty()
   @IsNumber()
-  minStock?: number;
+  minStock?: number = 10;
 
-  @IsNotEmpty()
+  // @IsNotEmpty()
   @IsString()
-  location?: string;
+  location?: string = 'Default Location';
 
   // @IsNotEmpty()
   // @IsNumber()
