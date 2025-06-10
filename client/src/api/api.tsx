@@ -3,7 +3,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_BACK_URL, // asegúrate de usar VITE_ prefijo
+  baseURL: import.meta.env.VITE_APP_BACK_URL, // asegúrate de usar VITE_ prefijo
 });
 
 api.interceptors.request.use((config) => {

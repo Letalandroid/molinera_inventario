@@ -35,8 +35,6 @@ export class ProductsService {
       price: p.price,
       minStock: p.minStock || 10,
       location: p.location || 'Default Location',
-      categoryId: p.categoryId || 1, // Default category ID
-      providerId: p.providerId || 1, // Default provider ID
     };
 
     return this.prisma.product.create({ data });
