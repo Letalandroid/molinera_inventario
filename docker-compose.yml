@@ -30,7 +30,7 @@ services:
       context: ./client
       dockerfile: Dockerfile
     environment:
-      VITE_APP_BACK_URL: http://backend:3000/api/v1 # Importante que frontend apunte al backend dentro de la red docker
+      VITE_APP_BACK_URL: http://localhost:3000/api/v1 # Importante que frontend apunte al backend dentro de la red docker
     ports:
       - "80:80"
     depends_on:
