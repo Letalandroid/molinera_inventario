@@ -142,12 +142,12 @@ export class AuthService {
           payload,
           this.jwtConfig.getConfig(),
         ),
-        user: {
-          id: foundUser.id,
-          name: profile?.name || foundUser.email,
-          email: foundUser.email,
-          role: foundUser.role,
-        },
+        // user: {
+        //   id: foundUser.id,
+        //   name: profile?.name || foundUser.email,
+        //   email: foundUser.email,
+        //   role: foundUser.role,
+        // },
         message: '¡Bienvenido! Has iniciado sesión correctamente',
       };
     } catch (error) {
