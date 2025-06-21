@@ -77,13 +77,13 @@ export class ProductCreate {
   @IsString()
   location?: string = 'Default Location';
 
-  // @IsNotEmpty()
-  // @IsNumber()
-  // categoryId?: number;
+  @IsNotEmpty()
+  @IsNumber()
+  categoryId?: number;
 
-  // @IsNotEmpty()
-  // @IsNumber()
-  // providerId?: number;
+  @IsNotEmpty()
+  @IsNumber()
+  providerId?: number;
 }
 
 export class ProductUpdate {
@@ -120,20 +120,20 @@ export class ProductUpdate {
   })
   createdAt?: Date;
 
-  // @IsNotEmpty()
+  @IsNotEmpty()
   @IsNumber()
   minStock?: number = 10;
 
-  // @IsNotEmpty()
+  @IsNotEmpty()
   @IsString()
   location?: string = 'Default Location';
 
-  // @IsNotEmpty()
-  // @IsNumber()
-  // categoryId?: number;
+  @IsNotEmpty()
+  @IsNumber()
+  categoryId?: number;
 
-  // @IsNotEmpty()
-  // @IsNumber()
-  // providerId?: number;
+  @IsNotEmpty()
+  @IsNumber()
+  providerId?: number;
 }
 
