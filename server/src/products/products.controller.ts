@@ -24,7 +24,7 @@ export class ProductsController {
    * EndPoint de /getAll para enlistar todos los productos
    * @returns toda la lista de productos
    */
-  @Get('getAll')
+  @Get()
   @UseGuards(EmployeeGuard)
   @ApiOperation({ summary: 'Obtener todos los productos' }) // Descripción breve del endpoint
   @ApiResponse({
