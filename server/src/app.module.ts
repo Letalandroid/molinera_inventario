@@ -6,12 +6,14 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { JwtModule } from '@nestjs/jwt';
+import { ProvidersController } from './providers/providers.controller';
+import { ProvidersModule } from './providers/providers.module';
 
 @Module({
   imports: [ConfigModule.forRoot({
     isGlobal: true,
-  }), ProductsModule, AuthModule, UsersModule, JwtModule],
-  controllers: [AppController],
+  }), ProductsModule, AuthModule, UsersModule, JwtModule, ProvidersModule],
+  controllers: [AppController, ProvidersController],
   providers: [AppService],
 })
 export class AppModule { }
