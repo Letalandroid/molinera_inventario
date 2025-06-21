@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 import {
   ApiTags,
   ApiOperation,
@@ -6,6 +6,7 @@ import {
   ApiOkResponse,
 } from '@nestjs/swagger';
 import { CategoryService } from './category.service';
+import { AdminGuard } from 'src/guards/auth/admin.guard';
 
 /**
  * Controlador para la gestión de categorías de productos
@@ -20,6 +21,7 @@ export class CategoryController {
    * Obtiene todas las categorías disponibles
    */
   @Get()
+  @UseGuards(AdminGuard)
   @ApiOperation({
     summary: 'Obtener todas las categorías',
     description:

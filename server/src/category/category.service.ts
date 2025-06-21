@@ -3,11 +3,13 @@ import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class CategoryService {
+  constructor(private readonly prisma: PrismaService) {}
 
-    constructor (private readonly prisma: PrismaService) {}
-
-    get() {
-        this.prisma.category.findMany();
-    }
-
+  get() {
+    return this.prisma.category.findMany({
+      orderBy: {
+        id: 'asc',
+      },
+    });
+  }
 }
