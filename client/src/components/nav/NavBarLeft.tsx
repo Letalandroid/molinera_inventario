@@ -13,12 +13,14 @@ const NavBarLeft = () => {
     {
       name: "Reportes",
       icon: "fas fa-flag",
-      link: "/reportes",
+      // link: "/reportes",
+      link: "#",
     },
     {
       name: "Auditoria",
       icon: "fas fa-audio-description",
-      link: "/auditorias",
+      // link: "/auditorias",
+      link: "#",
     },
   ];
 
@@ -41,7 +43,8 @@ const NavBarLeft = () => {
     {
       name: "Entrada y salida",
       icon: "fas fa-industry",
-      link: "/prodductos",
+      // link: "/movimientos",
+      link: "#",
     },
   ];
 
