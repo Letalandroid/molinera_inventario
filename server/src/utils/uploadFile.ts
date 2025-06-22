@@ -4,6 +4,7 @@ import * as path from 'path';
 
 export interface uploadFile {
   publicUrl: string;
+  error?: string
 }
 
 export const upload = async (

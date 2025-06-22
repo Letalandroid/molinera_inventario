@@ -9,7 +9,10 @@ import { upload, uploadFile } from 'src/utils/uploadFile';
 export class GenerateService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async generateMovement(startDate: string, endDate: string): Promise<uploadFile> {
+  async generateMovement(
+    startDate: string,
+    endDate: string,
+  ): Promise<uploadFile> {
     const data = await this.prisma.movement.findMany({
       where: {
         date: {
@@ -37,6 +40,13 @@ export class GenerateService {
         date: true,
       },
     });
+
+    if (!data || data.length === 0) {
+      return {
+        error: 'No hay movimientos en el rango indicado.',
+        publicUrl: '',
+      };
+    }
 
     try {
       // Transform nested data to flat structure for Excel
@@ -86,7 +96,7 @@ export class GenerateService {
       // ✅ Eliminar el archivo local después de subirlo
       await fs.unlink(filePath);
 
-      console.log(`Excel file uploaded to Supabase: ${fileUpload.publicUrl}`);
+      // console.log(`Excel file uploaded to Supabase: ${fileUpload.publicUrl}`);
       return fileUpload;
     } catch (error) {
       console.error('Error generating Excel file:', error);
