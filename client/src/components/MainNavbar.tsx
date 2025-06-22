@@ -1,17 +1,13 @@
 // src/components/MainNavbar.tsx
 import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Button,
-  Menu,
-  MenuItem,
-  Box,
+  AppBar
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useContext, type MouseEvent } from "react";
 import { AuthContext } from "../context/AuthContext";
 import api from "../api/api";
+import styles from "../styles/ProductPage.module.css";
+import user_img from '../assets/user.webp';
 
 export default function MainNavbar() {
   const navigate = useNavigate();
@@ -56,39 +52,32 @@ export default function MainNavbar() {
 
   return (
     <AppBar position="static" color="primary">
-      <Toolbar>
-        <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          Inventario Hellen Mabel
-        </Typography>
+      <div className={styles.navSup_container}>
+        <div className={styles.icon_menu_container}>
+          <i className="fas fa-bars"></i>
+          <h4>Inventario Hellen Mabel</h4>
+        </div>
 
-        <Box>
-          <Button color="inherit" onClick={handleProductsClick}>
-            Productos
-          </Button>
-          <Menu
-            anchorEl={anchorElProducts}
-            open={openProducts}
-            onClose={handleProductsClose}
-          >
-            <MenuItem onClick={() => goTo("/products")}>Listar</MenuItem>
-            <MenuItem onClick={() => goTo("/products/create")}>Crear</MenuItem>
-          </Menu>
-        </Box>
+        <div className={styles.navSup_user}>
+          <div>
+            <a onClick={() => navigate("/products")}>Productos</a>
+          </div>
 
-        {/* Solo para ADMINISTRADOR */}
-        {user?.role === "ADMINISTRADOR" && (
-          <Button color="inherit" onClick={() => navigate("/users")}>
-            Usuarios
-          </Button>
-        )}
+          {/* Solo para ADMINISTRADOR */}
+          {user?.role === "ADMINISTRADOR" && (
+            <a onClick={() => navigate("/users")}>Usuarios</a>
+          )}
 
-        {/* Mostrar nombre de usuario si está autenticado */}
-        {profile && (
-          <Typography variant="body1" sx={{ ml: 2 }}>
-            Bienvenido, {profile.name}
-          </Typography>
-        )}
-      </Toolbar>
+          {/* Mostrar nombre de usuario si está autenticado */}
+          {profile && (
+            <div className={styles.navProfile}>
+              <img src={user_img} />
+              <p>{profile.name}</p>
+              <i className="fas fa-caret-down"></i>
+            </div>
+          )}
+        </div>
+      </div>
     </AppBar>
   );
 }
