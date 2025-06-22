@@ -9,8 +9,14 @@ import { upload, uploadFile } from 'src/utils/uploadFile';
 export class GenerateService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async generateMovement(): Promise<uploadFile> {
+  async generateMovement(startDate: string, endDate: string): Promise<uploadFile> {
     const data = await this.prisma.movement.findMany({
+      where: {
+        date: {
+          gte: new Date(startDate),
+          lte: new Date(endDate),
+        },
+      },
       select: {
         type: true,
         User: {
@@ -67,7 +73,7 @@ export class GenerateService {
 
       // Define file path
       const fileName = `Movimientos_${Date.now()}.xlsx`;
-      const filePath = path.join(process.cwd(), 'uploads', fileName);
+      const filePath = path.join(process.cwd(), 'temp', fileName);
 
       // Ensure directory exists
       await fs.mkdir(path.dirname(filePath), { recursive: true });
@@ -75,7 +81,7 @@ export class GenerateService {
       // Save file
       await fs.writeFile(filePath, buffer);
 
-      const fileUpload = await upload(filePath, fileName);
+      const fileUpload = await upload(filePath, fileName, 'movements');
 
       // ✅ Eliminar el archivo local después de subirlo
       await fs.unlink(filePath);

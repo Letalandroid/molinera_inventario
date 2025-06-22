@@ -9,6 +9,7 @@ export interface uploadFile {
 export const upload = async (
   filePath: string,
   filename: string,
+  type: string
 ): Promise<uploadFile> => {
   const supabase = createClient(
     `https://${process.env.SUPABASE_PROJECT_ID}.supabase.co`,
@@ -28,7 +29,7 @@ export const upload = async (
 
   // 📤 Subirlo al bucket 'movements'
   const { error: uploadError } = await supabase.storage
-    .from('movements')
+    .from(type)
     .upload(filename, buffer, {
       contentType:
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -41,7 +42,7 @@ export const upload = async (
 
   // 🔗 Obtener URL pública del archivo
   const { data: publicUrlData } = supabase.storage
-    .from('movements') // Asegúrate de que es el bucket correcto
+    .from(type) // Asegúrate de que es el bucket correcto
     .getPublicUrl(filename);
 
   if (!publicUrlData?.publicUrl) {
