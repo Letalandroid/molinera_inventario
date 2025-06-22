@@ -1,5 +1,5 @@
 // src/pages/MovementList.tsx
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { type Movement } from "../types";
 import api from "../api/api";
 import ReportsTable from "../components/ReportsTable";
@@ -9,7 +9,6 @@ import {
   Typography,
   TextField,
   Button,
-  Box,
   Stack,
 } from "@mui/material";
 import styles from "../styles/ProductTable.module.css";
