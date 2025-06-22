@@ -1,4 +1,3 @@
-// src/components/ProductTable.tsx
 import {
   Table,
   TableBody,
@@ -22,17 +21,22 @@ export default function ProductTable({ products }: Props) {
 
   return (
     <TableContainer component={Paper}>
-      <Table>
+      <Table size="small">
         <TableHead>
           <TableRow>
             <TableCell sx={{ fontWeight: "bold" }}>Título</TableCell>
             <TableCell sx={{ fontWeight: "bold" }}>Descripción</TableCell>
             <TableCell sx={{ fontWeight: "bold" }}>Precio</TableCell>
             <TableCell sx={{ fontWeight: "bold" }}>Stock</TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Mín. Stock</TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Ubicación</TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Categoría</TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Proveedor</TableCell>
             <TableCell sx={{ fontWeight: "bold" }}>Estado</TableCell>
             <TableCell sx={{ fontWeight: "bold" }}>Acciones</TableCell>
           </TableRow>
         </TableHead>
+
         <TableBody>
           {products.map((product) => (
             <TableRow key={product.id}>
@@ -40,6 +44,10 @@ export default function ProductTable({ products }: Props) {
               <TableCell>{product.description}</TableCell>
               <TableCell>S/. {product.price}</TableCell>
               <TableCell>{product.stock}</TableCell>
+              <TableCell>{product.minStock}</TableCell>
+              <TableCell>{product.location}</TableCell>
+              <TableCell>{product.category?.name || "—"}</TableCell>
+              <TableCell>{product.provider?.name || "—"}</TableCell>
               <TableCell>
                 <Box
                   sx={{
@@ -59,7 +67,6 @@ export default function ProductTable({ products }: Props) {
                   {product.isActive ? "Activo" : "Inactivo"}
                 </Box>
               </TableCell>
-
               <TableCell>
                 <Button
                   variant="outlined"
