@@ -34,6 +34,15 @@ export class GenerateController {
   @Post('stocks')
   @UseGuards(EmployeeGuard)
   async generateStocks() {
-    return this.genService.generateStocks();
+    const result = this.genService.generateStocks();
+
+    if ('error' in result) {
+      throw new NotFoundException({
+        status: 400,
+        message: result.error,
+      });
+    }
+
+    return result;
   }
 }
