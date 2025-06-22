@@ -13,7 +13,7 @@ export class AuditLogService {
         action: true,
         timestamp: true,
       },
-      orderBy: { id: 'asc' },
+      orderBy: { id: 'desc' },
     });
 
     return auditLogs.map((log) => ({

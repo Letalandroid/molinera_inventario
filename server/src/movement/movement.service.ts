@@ -27,7 +27,7 @@ export class MovementService {
         date: true,
       },
       orderBy: {
-        id: 'asc',
+        id: 'desc',
       },
     });
 

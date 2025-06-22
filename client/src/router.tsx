@@ -9,6 +9,7 @@ import UserProfile from "./pages/UserProfile";
 import ProvidersList from "./pages/ProvidersList";
 import Dashboard from "./pages/Dashboard";
 import AdminRoute from "./components/AdminRoutes";
+import MovementList from "./pages/MovementList";
 
 export default function App() {
   return (
@@ -40,6 +41,15 @@ export default function App() {
           element={
             <AdminRoute>
               <ProvidersList />
+            </AdminRoute>
+          }
+        />
+
+        <Route
+          path="/movimientos"
+          element={
+            <AdminRoute>
+              <MovementList />
             </AdminRoute>
           }
         />

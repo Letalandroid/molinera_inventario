@@ -26,6 +26,14 @@ export interface User {
   Profile?: { name: string };
 }
 
+export interface Movement {
+  type: string;
+  userName: string;
+  productName: string;
+  quantity: number;
+  date: Date;
+}
+
 export interface Provider {
   id: number;
   name: string;
