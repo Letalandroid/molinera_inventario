@@ -7,5 +7,6 @@
 }
 
 .btn_nav:hover {
+  cursor: pointer;
   background-color: #1976d2;
 }
