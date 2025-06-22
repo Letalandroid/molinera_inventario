@@ -16,29 +16,22 @@ export default function Dashboard() {
         .catch((err) => console.error(err));
     }, []);
 
-  const dashItems: DashProp[] = [
-    {
-      icon: "fas fa-truck",
-      name: "Proveedores",
-      count: 0,
-    },
-  ];
-
   return (
     <>
       <MainNavbar />
       <Container maxWidth="lg">
         <div className={styles.table_container}>
-          <Typography variant="h5" gutterBottom>
+          <h2 className={styles.h2}>
             Dashboard
-          </Typography>
-          <div>
-            {dashItems.map((item) => {
+          </h2>
+          <div className={styles.container_items}>
+            {dashItem.map((item) => {
               return (
                 <DashCard
                   name={item.name}
                   icon={item.icon}
                   count={item.count}
+                  color={item.color}
                 />
               );
             })}

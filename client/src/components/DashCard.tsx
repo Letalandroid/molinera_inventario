@@ -4,9 +4,10 @@ export interface DashProp {
   icon: string;
   name: string;
   count: number;
+  color: string;
 }
 
-const DashCard = ({ icon, name, count }: DashProp) => {
+const DashCard = ({ icon, name, count, color }: DashProp) => {
   return (
     <div className={styles.dashboard_container}>
       <div>

@@ -11,6 +11,17 @@
   max-width: calc(100vw - 16rem); /* evita que desborde la pantalla */
 }
 
+.h2 {
+  font-size: 32px;
+  margin-bottom: 15px;
+}
+
+.container_items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
 @media (max-width: 1920px) {
   .table_container {
     left: 20rem;
