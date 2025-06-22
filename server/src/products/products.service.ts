@@ -15,14 +15,14 @@ export class ProductsService {
       include: {
         Category: {
           select: {
-            name: true
-          }
+            name: true,
+          },
         },
         Provider: {
           select: {
-            name: true
-          }
-        }
+            name: true,
+          },
+        },
       },
     });
   }
@@ -35,6 +35,53 @@ export class ProductsService {
     });
 
     return prod_all;
+  }
+
+  async filterProduct(startDate: string, endDate: string) {
+    const data = await this.prisma.movement.findMany({
+      where: {
+        date: {
+          gte: new Date(startDate),
+          lte: new Date(endDate),
+        },
+      },
+      orderBy: {
+        id: 'desc',
+      },
+      select: {
+        id: true,
+        type: true,
+        User: {
+          select: {
+            Profile: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+        Product: {
+          select: {
+            title: true,
+          },
+        },
+        quantity: true,
+        date: true,
+      },
+    });
+
+    const flattenedData = data.map((movement) => ({
+      id: movement.id,
+      type: movement.type,
+      userName: movement.User?.Profile?.name || 'N/A',
+      productName: movement.Product?.title || 'N/A',
+      quantity: movement.quantity,
+      date: movement.date
+        ? new Date(movement.date).toLocaleDateString('es-ES')
+        : 'N/A',
+    }));
+
+    return flattenedData;
   }
 
   createProduct(p: ProductCreate) {

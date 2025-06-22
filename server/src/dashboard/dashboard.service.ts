@@ -9,6 +9,8 @@ export class DashboardService {
     const countProviders = await this.prisma.provider.count();
     const countProducts = await this.prisma.product.count();
     const countUsers = await this.prisma.user.count();
+    const countMovements = await this.prisma.movement.count();
+    const countAudit = await this.prisma.auditLog.count();
 
     return [
       {
@@ -28,6 +30,18 @@ export class DashboardService {
         name: 'Usuarios',
         count: countUsers,
         color: '#e93260',
+      },
+      {
+        icon: 'fas fa-industry',
+        name: 'Movimientos',
+        count: countMovements,
+        color: '#0898bf',
+      },
+      {
+        icon: 'fas fa-audio-description',
+        name: 'Auditoria',
+        count: countAudit,
+        color: '#001f47',
       },
     ];
   }

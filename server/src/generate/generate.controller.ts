@@ -1,16 +1,48 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  NotFoundException,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { GenerateService } from './generate.service';
 import { EmployeeGuard } from 'src/guards/auth/employee.guard';
+import { DateRangeDto } from 'src/models/DateRange';
 
-@Controller('generate')
+@Controller('reports')
 export class GenerateController {
+  constructor(private readonly genService: GenerateService) {}
 
-    constructor (private readonly genService: GenerateService) {}
+  @Post('movements')
+  @UseGuards(EmployeeGuard)
+  async generateMovement(@Body() body: DateRangeDto) {
+    const result = await this.genService.generateMovement(
+      body.startDate,
+      body.endDate,
+    );
 
-    @Get('movements')
-    @UseGuards(EmployeeGuard)
-    generateExcel() {
-        return this.genService.generateMovement();
+    if ('error' in result) {
+      throw new NotFoundException({
+        status: 400,
+        message: result.error,
+      });
     }
 
+    return result;
+  }
+
+  @Post('stocks')
+  @UseGuards(EmployeeGuard)
+  async generateStocks() {
+    const result = this.genService.generateStocks();
+
+    if ('error' in result) {
+      throw new NotFoundException({
+        status: 400,
+        message: result.error,
+      });
+    }
+
+    return result;
+  }
 }

@@ -11,11 +11,13 @@ import { ProvidersModule } from './providers/providers.module';
 import { CategoryModule } from './category/category.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { GenerateModule } from './generate/generate.module';
+import { MovementModule } from './movement/movement.module';
+import { AuditLogModule } from './audit_log/audit_log.module';
 
 @Module({
   imports: [ConfigModule.forRoot({
     isGlobal: true,
-  }), ProductsModule, AuthModule, UsersModule, JwtModule, ProvidersModule, CategoryModule, DashboardModule, GenerateModule],
+  }), ProductsModule, AuthModule, UsersModule, JwtModule, ProvidersModule, CategoryModule, DashboardModule, GenerateModule, MovementModule, AuditLogModule],
   controllers: [AppController],
   providers: [AppService],
 })

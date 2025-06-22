@@ -9,11 +9,18 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiHeader } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+  ApiHeader,
+} from '@nestjs/swagger';
 import { ProductsService } from './products.service';
 import { ProductCreate, ProductUpdate } from '../../src/models/Product';
 import { EmployeeGuard } from '../guards/auth/employee.guard';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import { DateRangeDto } from 'src/models/DateRange';
 
 @ApiTags('Products') // Categoría para agrupar los endpoints relacionados con productos
 @Controller('products')
@@ -56,6 +63,18 @@ export class ProductsController {
     return this.prodService.getOneProduct(parseInt(id));
   }
 
+  @Post('/filter')
+  @UseGuards(EmployeeGuard)
+  @ApiOperation({ summary: 'Filtrar un producto' }) // Descripción breve del endpoint
+  @ApiResponse({
+    status: 200,
+    description: 'Producto obtenido exitosamente.',
+  }) // Respuesta esperada
+  @ApiResponse({ status: 500, description: 'Error interno del servidor.' }) // Respuesta en caso de error
+  async filterProduct(@Body() body: DateRangeDto) {
+    return await this.prodService.filterProduct(body.startDate, body.endDate);
+  }
+
   /**
    * Endpoint para crear los productos
    * @param p Producto nuevo a agregar
@@ -64,9 +83,9 @@ export class ProductsController {
   @Post('create')
   @UseGuards(EmployeeGuard)
   @ApiBearerAuth()
-    @ApiHeader({
-      name: 'Authorization'
-    })
+  @ApiHeader({
+    name: 'Authorization',
+  })
   @ApiOperation({ summary: 'Crear un nuevo producto' }) // Descripción breve del endpoint
   @ApiResponse({ status: 200, description: 'Crea un nuevo producto' }) // Respuesta esperada
   @ApiResponse({ status: 400, description: 'Error al crear el producto.' }) // Respuesta en caso de error
@@ -104,7 +123,7 @@ export class ProductsController {
       throw new NotFoundException({
         status: 400,
         message: `Error al actualizar el producto: ${error}`,
-        p
+        p,
       });
     }
   }
@@ -134,7 +153,6 @@ export class ProductsController {
         message: `Producto ${id} eliminado correctamente`,
       };
     } catch (error) {
-
       if (error instanceof PrismaClientKnownRequestError) {
         throw new NotFoundException({
           status: 400,
