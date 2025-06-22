@@ -10,11 +10,12 @@ import { ProvidersController } from './providers/providers.controller';
 import { ProvidersModule } from './providers/providers.module';
 import { CategoryModule } from './category/category.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { GenerateModule } from './generate/generate.module';
 
 @Module({
   imports: [ConfigModule.forRoot({
     isGlobal: true,
-  }), ProductsModule, AuthModule, UsersModule, JwtModule, ProvidersModule, CategoryModule, DashboardModule],
+  }), ProductsModule, AuthModule, UsersModule, JwtModule, ProvidersModule, CategoryModule, DashboardModule, GenerateModule],
   controllers: [AppController],
   providers: [AppService],
 })
