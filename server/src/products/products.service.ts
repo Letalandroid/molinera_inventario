@@ -12,6 +12,18 @@ export class ProductsService {
       orderBy: {
         id: 'asc',
       },
+      include: {
+        Category: {
+          select: {
+            name: true
+          }
+        },
+        Provider: {
+          select: {
+            name: true
+          }
+        }
+      },
     });
   }
 

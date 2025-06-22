@@ -42,12 +42,12 @@ export default function ProductTable({ products }: Props) {
             <TableRow key={product.id}>
               <TableCell>{product.title}</TableCell>
               <TableCell>{product.description}</TableCell>
-              <TableCell>S/. {product.price}</TableCell>
+              <TableCell>S/. {Number(product.price).toFixed(2)}</TableCell>
               <TableCell>{product.stock}</TableCell>
               <TableCell>{product.minStock}</TableCell>
               <TableCell>{product.location}</TableCell>
-              <TableCell>{product.category?.name || "—"}</TableCell>
-              <TableCell>{product.provider?.name || "—"}</TableCell>
+              <TableCell>{product.Category?.name || "—"}</TableCell>
+              <TableCell>{product.Provider?.name || "—"}</TableCell>
               <TableCell>
                 <Box
                   sx={{

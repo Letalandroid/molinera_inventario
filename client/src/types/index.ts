@@ -3,18 +3,16 @@ export interface Product {
   id: number;
   title: string;
   description: string;
-  price: number;
+  price: number | string; // si es string en el backend, puedes mantener ambos tipos
   stock: number;
   minStock: number;
   location: string;
   isActive: boolean;
   createdAt: string;
-  category?: {
-    name: string;
-  };
-  provider?: {
-    name: string;
-  };
+  categoryId: number;
+  providerId: number;
+  Category?: { name: string }; // se escribe con mayúscula
+  Provider?: { name: string }; // igual que el backend
 }
 
 export type Role = "ADMINISTRADOR" | "EMPLEADO";
