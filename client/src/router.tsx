@@ -7,6 +7,7 @@ import ProductForm from "./pages/ProductForm";
 import UserList from "./pages/UserList";
 import UserProfile from "./pages/UserProfile";
 import ProvidersList from "./pages/ProvidersList";
+import Dashboard from "./pages/Dashboard";
 
 export default function App() {
   return (
@@ -14,6 +15,15 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        />
 
         <Route
           path="/productos"
