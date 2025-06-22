@@ -68,11 +68,11 @@ export class ProductCreate {
 
   @IsNotEmpty()
   @IsNumber()
-  minStock?: number = 10;
+  minStock?: number;
 
   @IsNotEmpty()
   @IsString()
-  location?: string = 'Default Location';
+  location?: string;
 
   @IsNotEmpty()
   @IsNumber()
