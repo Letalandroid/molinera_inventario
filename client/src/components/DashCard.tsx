@@ -10,7 +10,7 @@ export interface DashProp {
 const DashCard = ({ icon, name, count, color }: DashProp) => {
   return (
     <div className={styles.dashboard_container}>
-      <div>
+      <div style={{ backgroundColor: color }}>
         <i className={icon}></i>
       </div>
       <p>{name}</p>
