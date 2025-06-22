@@ -12,6 +12,18 @@ export class ProductsService {
       orderBy: {
         id: 'asc',
       },
+      include: {
+        Category: {
+          select: {
+            name: true
+          }
+        },
+        Provider: {
+          select: {
+            name: true
+          }
+        }
+      },
     });
   }
 
@@ -29,12 +41,14 @@ export class ProductsService {
     const data: Prisma.ProductCreateInput = {
       title: p.title,
       description: p.description,
-      stock: p.stock || 0,
-      createdAt: p.createdAt,
-      isActive: p.isActive,
+      stock: p.stock ?? 0,
+      createdAt: p.createdAt ?? new Date(),
+      isActive: p.isActive ?? true,
       price: p.price,
-      minStock: p.minStock || 10,
-      location: p.location || '',
+      minStock: p.minStock ?? 10,
+      location: p.location,
+      Category: p.categoryId ? { connect: { id: p.categoryId } } : undefined,
+      Provider: p.providerId ? { connect: { id: p.providerId } } : undefined,
     };
 
     return this.prisma.product.create({ data });

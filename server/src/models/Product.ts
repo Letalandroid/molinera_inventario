@@ -2,10 +2,7 @@ import {
   IsBoolean,
   IsNotEmpty,
   IsNumber,
-  IsObject,
-  IsOptional,
   IsString,
-  MinLength,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger'; // Importar ApiProperty
 
@@ -71,19 +68,19 @@ export class ProductCreate {
 
   @IsNotEmpty()
   @IsNumber()
-  minStock?: number = 10;
+  minStock?: number;
 
   @IsNotEmpty()
   @IsString()
-  location?: string = 'Default Location';
+  location?: string;
 
-  // @IsNotEmpty()
-  // @IsNumber()
-  // categoryId?: number;
+  @IsNotEmpty()
+  @IsNumber()
+  categoryId?: number;
 
-  // @IsNotEmpty()
-  // @IsNumber()
-  // providerId?: number;
+  @IsNotEmpty()
+  @IsNumber()
+  providerId?: number;
 }
 
 export class ProductUpdate {
@@ -122,18 +119,18 @@ export class ProductUpdate {
 
   @IsNotEmpty()
   @IsNumber()
-  minStock?: number;
+  minStock?: number = 10;
 
   @IsNotEmpty()
   @IsString()
-  location?: string;
+  location?: string = 'Default Location';
 
-  // @IsNotEmpty()
-  // @IsNumber()
-  // categoryId?: number;
+  @IsNotEmpty()
+  @IsNumber()
+  categoryId?: number;
 
-  // @IsNotEmpty()
-  // @IsNumber()
-  // providerId?: number;
+  @IsNotEmpty()
+  @IsNumber()
+  providerId?: number;
 }
 

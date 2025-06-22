@@ -13,45 +13,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Product {
-  id            Int             @id @default(autoincrement())
-  title         String
-  description   String?         @db.VarChar(1500)
-  price         Float?
-  stock         Int             // cantidad actual
-  minStock      Int             // para alertas de bajo stock
-  location      String?         // ubicación en almacén
-  createdAt     DateTime        @default(now())
-  isActive      Boolean         @default(true)
-  categoryId    Int?
-  providerId    Int?
-  Category      Category?       @relation(fields: [categoryId], references: [id])
-  Provider      Provider?       @relation(fields: [providerId], references: [id])
-  Movements     Movement[]
-}
-
-model Category {
-  id        Int       @id @default(autoincrement())
-  name      String    @unique
-  products  Product[]
-}
-
-model Provider {
-  id        Int       @id @default(autoincrement())
-  name      String
-  contact   String?
-  products  Product[]
-}
-
-model Movement {
-  id          Int       @id @default(autoincrement())
-  type        MovementType
-  quantity    Int
-  date        DateTime  @default(now())
-  productId   Int
-  userId      Int
-  Product     Product   @relation(fields: [productId], references: [id])
-  User        User      @relation(fields: [userId], references: [id])
+// Enums
+enum Role {
+  ADMINISTRADOR
+  EMPLEADO
 }
 
 enum MovementType {
@@ -59,35 +24,102 @@ enum MovementType {
   SALIDA
 }
 
+// Modelo Provider
+model Provider {
+  id       Int       @id @default(autoincrement())
+  name     String
+  contact  String?
+  products Product[]
+
+  @@map("Provider")
+}
+
+// Modelo Category
+model Category {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  products Product[]
+
+  @@map("Category")
+}
+
+// Modelo User
 model User {
-  id        Int       @id @default(autoincrement())
-  email     String    @unique
+  id        Int        @id @default(autoincrement())
+  email     String     @unique
   password  String
-  role      Role      @default(EMPLEADO)
-  isActive  Boolean   @default(false)
-  createdAt DateTime  @default(now())
+  role      Role       @default(EMPLEADO)
+  isActive  Boolean    @default(false)
+  createdAt DateTime   @default(now())
   Profile   Profile?
   Movements Movement[]
   AuditLogs AuditLog[]
+
+  @@map("User")
 }
 
+// Modelo Profile
 model Profile {
   user_id Int    @id
-  user    User   @relation(fields: [user_id], references: [id])
+  user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
   dni     String
   name    String @db.VarChar(50)
+
+  @@map("Profile")
 }
 
+// Modelo Product
+model Product {
+  id          Int        @id @default(autoincrement())
+  title       String
+  description String?    @db.VarChar(1500)
+  price       Decimal?   @db.Decimal(10, 2)
+  stock       Int        // cantidad actual
+  minStock    Int        // para alertas de bajo stock
+  location    String?    // ubicación en almacén
+  createdAt   DateTime   @default(now())
+  isActive    Boolean    @default(true)
+  categoryId  Int?
+  providerId  Int?
+  Category    Category?  @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  Provider    Provider?  @relation(fields: [providerId], references: [id], onDelete: SetNull)
+  Movements   Movement[]
+
+  // Índices para mejorar rendimiento
+  @@index([categoryId], name: "idx_product_category")
+  @@index([providerId], name: "idx_product_provider")
+  @@index([isActive], name: "idx_product_active")
+  @@map("Product")
+}
+
+// Modelo Movement
+model Movement {
+  id        Int          @id @default(autoincrement())
+  type      MovementType
+  quantity  Int
+  date      DateTime     @default(now())
+  productId Int
+  userId    Int
+  Product   Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
+  User      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Índices para mejorar rendimiento
+  @@index([productId], name: "idx_movement_product")
+  @@index([userId], name: "idx_movement_user")
+  @@index([date], name: "idx_movement_date")
+  @@map("Movement")
+}
+
+// Modelo AuditLog
 model AuditLog {
   id        Int      @id @default(autoincrement())
   userId    Int
   action    String   @db.VarChar(255)
   timestamp DateTime @default(now())
-  User      User     @relation(fields: [userId], references: [id])
-}
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-enum Role {
-  ADMINISTRADOR
-  EMPLEADO
+  // Índices para mejorar rendimiento
+  @@index([userId], name: "idx_audit_user")
+  @@index([timestamp], name: "idx_audit_timestamp")
+  @@map("AuditLog")
 }
-

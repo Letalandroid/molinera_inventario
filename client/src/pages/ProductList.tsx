@@ -10,7 +10,7 @@ export default function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);
   useEffect(() => {
     api
-      .get(`${import.meta.env.VITE_APP_BACK_URL}/products/getAll`)
+      .get(`${import.meta.env.VITE_APP_BACK_URL}/products`)
       .then((res) => setProducts(res.data))
       .catch((err) => console.error(err));
   }, []);
