@@ -55,11 +55,11 @@ const NavBarLeft = () => {
       <h3 className={styles.navLeft_header}>Inventario</h3>
       <div className={styles.btnContainer}>
         {pages.map((p) => {
-          return <ButtonNav name={p.name} icon={p.icon} link={p.link} />;
+          return <ButtonNav key={p.name} name={p.name} icon={p.icon} link={p.link} />;
         })}
         <h5 className={styles.subtitle}>Mantenimiento</h5>
         {pages_maintence.map((p) => {
-          return <ButtonNav name={p.name} icon={p.icon} link={p.link} />;
+          return <ButtonNav key={p.name} name={p.name} icon={p.icon} link={p.link} />;
         })}
       </div>
     </div>

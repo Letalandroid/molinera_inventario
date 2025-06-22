@@ -1,5 +1,5 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import PrivateRoute from "./components/PrivateRoutes";
+import PrivateRoutes from "./components/PrivateRoutes";
 import ProductList from "./pages/ProductList";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
@@ -8,6 +8,7 @@ import UserList from "./pages/UserList";
 import UserProfile from "./pages/UserProfile";
 import ProvidersList from "./pages/ProvidersList";
 import Dashboard from "./pages/Dashboard";
+import AdminRoute from "./components/AdminRoutes";
 
 export default function App() {
   return (
@@ -19,62 +20,62 @@ export default function App() {
         <Route
           path="/dashboard"
           element={
-            <PrivateRoute>
+            <PrivateRoutes>
               <Dashboard />
-            </PrivateRoute>
+            </PrivateRoutes>
           }
         />
 
         <Route
           path="/productos"
           element={
-            <PrivateRoute>
+            <PrivateRoutes>
               <ProductList />
-            </PrivateRoute>
+            </PrivateRoutes>
           }
         />
 
         <Route
           path="/proveedores"
           element={
-            <PrivateRoute>
+            <AdminRoute>
               <ProvidersList />
-            </PrivateRoute>
+            </AdminRoute>
           }
         />
 
         <Route
           path="/products/create"
           element={
-            <PrivateRoute>
+            <PrivateRoutes>
               <ProductForm />
-            </PrivateRoute>
+            </PrivateRoutes>
           }
         />
         <Route
           path="/products/edit/:id"
           element={
-            <PrivateRoute>
+            <PrivateRoutes>
               <ProductForm />
-            </PrivateRoute>
+            </PrivateRoutes>
           }
         />
 
         <Route
           path="/usuarios"
           element={
-            <PrivateRoute>
+            <AdminRoute>
               <UserList />
-            </PrivateRoute>
+            </AdminRoute>
           }
         />
 
         <Route
           path="/profile/:id"
           element={
-            <PrivateRoute>
+            <AdminRoute>
               <UserProfile />
-            </PrivateRoute>
+            </AdminRoute>
           }
         />
       </Routes>

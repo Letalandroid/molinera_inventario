@@ -8,11 +8,13 @@ import {
   Param,
   Body,
   Put,
+  Req,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiHeader, ApiBearerAuth } from '@nestjs/swagger';
 import { UsersService } from './users.service';
 import { AdminGuard } from '../guards/auth/admin.guard';
 import { UserChangeIsActive, UserChangeRole, UserData } from '../../src/models/User';
+import { EmployeeGuard } from 'src/guards/auth/employee.guard';
 
 @ApiTags('Users') // Categoría para agrupar los endpoints relacionados con usuarios
 @Controller('users')
@@ -52,7 +54,7 @@ export class UsersController {
   }
 
   @Get('/profile/:id')
-  @UseGuards(AdminGuard)
+  @UseGuards(EmployeeGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Obtener el perfil del usuario' }) // Descripción breve del endpoint
   @ApiHeader({
@@ -69,9 +71,9 @@ export class UsersController {
     status: 403,
     description: 'No tienes permiso para acceder a este recurso.',
   }) // Respuesta en caso de falta de permisos
-  async getProfileById(@Param('id') id: string) {
+  async getProfileById(@Param('id') id: string, @Req() req) {
     try {
-      return this.userService.getProfileById(parseInt(id));
+      return this.userService.getProfileById(parseInt(id), req);
     } catch (error) {
       if (error instanceof ForbiddenException) {
         throw error;
