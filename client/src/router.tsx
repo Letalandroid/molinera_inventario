@@ -10,6 +10,7 @@ import ProvidersList from "./pages/ProvidersList";
 import Dashboard from "./pages/Dashboard";
 import AdminRoute from "./components/AdminRoutes";
 import MovementList from "./pages/MovementList";
+import AuditList from "./pages/AuditList";
 
 export default function App() {
   return (
@@ -50,6 +51,15 @@ export default function App() {
           element={
             <AdminRoute>
               <MovementList />
+            </AdminRoute>
+          }
+        />
+
+        <Route
+          path="/auditorias"
+          element={
+            <AdminRoute>
+              <AuditList />
             </AdminRoute>
           }
         />
