@@ -1,4 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+  Req,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import {
   UserChangeIsActive,
@@ -7,10 +13,14 @@ import {
 } from '../../src/models/User';
 import { PrismaClientValidationError } from '@prisma/client/runtime/library';
 import { Role } from '@prisma/client';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly jwt: JwtService,
+  ) {}
 
   getAllUsers() {
     return this.prismaService.user.findMany({
@@ -23,10 +33,39 @@ export class UsersService {
     });
   }
 
-  getProfileById(id: number) {
-    return this.prismaService.profile.findUnique({
-      where: { user_id: id },
-    });
+  getProfileById(id: number, @Req() req) {
+    const authHeader = req.headers['authorization'];
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      throw new UnauthorizedException(
+        'Token no proporcionado o formato inválido.',
+      );
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+
+    try {
+      const payload = this.jwt.verify(token);
+
+      if (payload.userId != id) {
+        throw new UnauthorizedException({
+          message: 'No tienes permiso para acceder a este recurso.',
+        });
+      }
+
+      return this.prismaService.profile.findUnique({
+        where: { user_id: id },
+      });
+    } catch (err) {
+      if (err instanceof ForbiddenException) {
+        throw err;
+      }
+
+      throw new UnauthorizedException({
+        message: 'Token inválido o expirado.',
+        error: err,
+      });
+    }
   }
 
   async changeIsActive(id: number, user: UserChangeIsActive) {
@@ -134,7 +173,7 @@ export class UsersService {
       throw new NotFoundException({
         status: 404,
         message: 'User not found',
-        error
+        error,
       });
     }
   }
