@@ -1,18 +1,18 @@
 // src/pages/ProductList.tsx
 import { useEffect, useState } from "react";
-import { type Product } from "../types";
+import { type Provider } from "../types";
 import api from "../api/api";
-import ProductTable from "../components/ProductTable";
+import ProvidersTable from "../components/ProvidersTable";
 import MainNavbar from "../components/nav/MainNavbar";
 import { Container, Typography } from "@mui/material";
 import styles from "../styles/ProductTable.module.css";
 
-export default function ProductList() {
-  const [products, setProducts] = useState<Product[]>([]);
+export default function ProvidersList() {
+  const [providers, setProviders] = useState<Provider[]>([]);
   useEffect(() => {
     api
-      .get(`${import.meta.env.VITE_APP_BACK_URL}/products`)
-      .then((res) => setProducts(res.data))
+      .get(`${import.meta.env.VITE_APP_BACK_URL}/providers`)
+      .then((res) => setProviders(res.data))
       .catch((err) => console.error(err));
   }, []);
 
@@ -24,10 +24,10 @@ export default function ProductList() {
         {/* más ancho que "sm" */}
         <div className={styles.table_container}>
           <Typography variant="h5" gutterBottom>
-            Lista de Productos
+            Lista de Proveedores
           </Typography>
           <div className={styles.table_items}>
-            <ProductTable products={products} />
+            <ProvidersTable providers={providers} />
           </div>
         </div>
       </Container>

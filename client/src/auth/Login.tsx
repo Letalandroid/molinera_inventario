@@ -23,7 +23,7 @@ export default function Login() {
       const res = await api.post(`${import.meta.env.VITE_APP_BACK_URL}/auth/login`, form);
       const token: string = res.data.token;
       login(token);
-      navigate("/products");
+      navigate("/productos");
     } catch (err: any) {
       // Aquí puedes personalizar mensajes según el error
       if (err.response?.status === 401) {

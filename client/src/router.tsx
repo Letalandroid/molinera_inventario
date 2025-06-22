@@ -6,6 +6,7 @@ import Register from "./auth/Register";
 import ProductForm from "./pages/ProductForm";
 import UserList from "./pages/UserList";
 import UserProfile from "./pages/UserProfile";
+import ProvidersList from "./pages/ProvidersList";
 
 export default function App() {
   return (
@@ -15,10 +16,19 @@ export default function App() {
         <Route path="/register" element={<Register />} />
 
         <Route
-          path="/products"
+          path="/productos"
           element={
             <PrivateRoute>
               <ProductList />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/proveedores"
+          element={
+            <PrivateRoute>
+              <ProvidersList />
             </PrivateRoute>
           }
         />
@@ -41,7 +51,7 @@ export default function App() {
         />
 
         <Route
-          path="/users"
+          path="/usuarios"
           element={
             <PrivateRoute>
               <UserList />
