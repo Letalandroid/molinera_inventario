@@ -19,12 +19,16 @@ export default function ProductList() {
   return (
     <>
       <MainNavbar />
-      <Container>
+      <Container maxWidth="lg">
+        {" "}
+        {/* más ancho que "sm" */}
         <div className={styles.table_container}>
           <Typography variant="h5" gutterBottom>
             Lista de Productos
           </Typography>
-          <ProductTable products={products} />
+          <div className={styles.table_items}>
+            <ProductTable products={products} />
+          </div>
         </div>
       </Container>
     </>
