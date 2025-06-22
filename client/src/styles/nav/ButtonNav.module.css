@@ -1,0 +1,11 @@
+.btn_nav {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    padding-left: 20px;
+    gap: 10px;
+}
+
+.btn_nav:hover {
+  background-color: #1976d2;
+}

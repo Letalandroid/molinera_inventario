@@ -15,7 +15,7 @@ export default function App() {
         <Route path="/register" element={<Register />} />
 
         <Route
-          path="/products"
+          path="/productos"
           element={
             <PrivateRoute>
               <ProductList />
@@ -41,7 +41,7 @@ export default function App() {
         />
 
         <Route
-          path="/users"
+          path="/usuarios"
           element={
             <PrivateRoute>
               <UserList />

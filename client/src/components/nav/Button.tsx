@@ -1,3 +1,5 @@
+import styles from '../../styles/nav/ButtonNav.module.css';
+
 export interface ButtonNavProps {
   name: string;
   icon: string;
@@ -6,10 +8,10 @@ export interface ButtonNavProps {
 
 const ButtonNav = ({ name, icon, link }: ButtonNavProps) => {
   return (
-    <>
+    <div className={styles.btn_nav}>
       <i className={icon}></i>
       <a href={link}>{name}</a>
-    </>
+    </div>
   );
 };
 
