@@ -2,7 +2,7 @@ import { Controller, Get, UseGuards } from '@nestjs/common';
 import { GenerateService } from './generate.service';
 import { EmployeeGuard } from 'src/guards/auth/employee.guard';
 
-@Controller('generate')
+@Controller('reports')
 export class GenerateController {
 
     constructor (private readonly genService: GenerateService) {}

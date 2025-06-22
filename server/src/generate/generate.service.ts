@@ -3,12 +3,13 @@ import * as XLSX from 'xlsx';
 import { promises as fs } from 'fs';
 import * as path from 'path';
 import { PrismaService } from 'src/prisma.service';
+import { upload, uploadFile } from 'src/utils/uploadFile';
 
 @Injectable()
 export class GenerateService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async generateMovement(): Promise<string> {
+  async generateMovement(): Promise<uploadFile> {
     const data = await this.prisma.movement.findMany({
       select: {
         type: true,
@@ -74,8 +75,13 @@ export class GenerateService {
       // Save file
       await fs.writeFile(filePath, buffer);
 
-      console.log(`Excel file created: ${fileName}`);
-      return filePath;
+      const fileUpload = await upload(filePath, fileName);
+
+      // ✅ Eliminar el archivo local después de subirlo
+      await fs.unlink(filePath);
+
+      console.log(`Excel file uploaded to Supabase: ${fileUpload.publicUrl}`);
+      return fileUpload;
     } catch (error) {
       console.error('Error generating Excel file:', error);
       throw new Error('Failed to generate Excel file');
