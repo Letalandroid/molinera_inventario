@@ -15,7 +15,7 @@ export class GenerateController {
 
   @Post('movements')
   @UseGuards(EmployeeGuard)
-  async generateExcel(@Body() body: DateRangeDto) {
+  async generateMovement(@Body() body: DateRangeDto) {
     const result = await this.genService.generateMovement(
       body.startDate,
       body.endDate,
@@ -29,5 +29,11 @@ export class GenerateController {
     }
 
     return result;
+  }
+
+  @Post('stocks')
+  @UseGuards(EmployeeGuard)
+  async generateStocks() {
+    return this.genService.generateStocks();
   }
 }
