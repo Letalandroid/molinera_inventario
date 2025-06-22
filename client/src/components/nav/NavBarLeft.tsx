@@ -4,6 +4,8 @@ import styles from "../../styles/nav/NavLeft.module.css";
 
 //
 const NavBarLeft = () => {
+
+
   const pages: ButtonNavProps[] = [
     {
       name: "Dashboard",

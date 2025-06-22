@@ -1,4 +1,5 @@
-import styles from '../../styles/nav/ButtonNav.module.css';
+import { useNavigate } from "react-router-dom";
+import styles from "../../styles/nav/ButtonNav.module.css";
 
 export interface ButtonNavProps {
   name: string;
@@ -7,10 +8,16 @@ export interface ButtonNavProps {
 }
 
 const ButtonNav = ({ name, icon, link }: ButtonNavProps) => {
+  const navigate = useNavigate();
+
+  const goTo = (path: string) => {
+    navigate(path);
+  };
+
   return (
     <div className={styles.btn_nav}>
       <i className={icon}></i>
-      <a href={link}>{name}</a>
+      <a onClick={() => goTo(link)}>{name}</a>
     </div>
   );
 };
