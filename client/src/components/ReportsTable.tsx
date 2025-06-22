@@ -27,14 +27,12 @@ export default function ReportsTable({ movements }: Props) {
 
         <TableBody>
           {movements.map((movement) => (
-            <TableRow key={movement.productName}>
+            <TableRow key={movement.id}>
               <TableCell>{movement.type}</TableCell>
               <TableCell>{movement.userName}</TableCell>
               <TableCell>{movement.productName}</TableCell>
               <TableCell>{movement.quantity}</TableCell>
-              <TableCell>
-                {new Date(movement.date).toLocaleDateString()}
-              </TableCell>
+              <TableCell>{movement.date.toString()}</TableCell>
             </TableRow>
           ))}
         </TableBody>

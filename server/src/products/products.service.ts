@@ -49,6 +49,7 @@ export class ProductsService {
         id: 'desc',
       },
       select: {
+        id: true,
         type: true,
         User: {
           select: {
@@ -70,11 +71,12 @@ export class ProductsService {
     });
 
     const flattenedData = data.map((movement) => ({
-      tipo: movement.type,
-      usuario: movement.User?.Profile?.name || 'N/A',
-      producto: movement.Product?.title || 'N/A',
-      cantidad: movement.quantity,
-      fecha: movement.date
+      id: movement.id,
+      type: movement.type,
+      userName: movement.User?.Profile?.name || 'N/A',
+      productName: movement.Product?.title || 'N/A',
+      quantity: movement.quantity,
+      date: movement.date
         ? new Date(movement.date).toLocaleDateString('es-ES')
         : 'N/A',
     }));

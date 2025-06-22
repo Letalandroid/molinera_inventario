@@ -11,6 +11,7 @@ import Dashboard from "./pages/Dashboard";
 import AdminRoute from "./components/AdminRoutes";
 import MovementList from "./pages/MovementList";
 import AuditList from "./pages/AuditList";
+import ReportsList from "./pages/ReportsList";
 
 export default function App() {
   return (
@@ -60,6 +61,15 @@ export default function App() {
           element={
             <AdminRoute>
               <AuditList />
+            </AdminRoute>
+          }
+        />
+
+        <Route
+          path="/reportes"
+          element={
+            <AdminRoute>
+              <ReportsList />
             </AdminRoute>
           }
         />

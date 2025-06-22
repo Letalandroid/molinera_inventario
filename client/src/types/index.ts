@@ -27,6 +27,7 @@ export interface User {
 }
 
 export interface Movement {
+  id?: number;
   type: string;
   userName: string;
   productName: string;
