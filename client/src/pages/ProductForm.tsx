@@ -98,7 +98,7 @@ export default function ProductForm() {
         .then((res) => setProduct(res.data))
         .catch((err) => {
           console.error("Error al cargar producto:", err);
-          navigate("/products");
+          navigate("/productos");
         });
     }
   }, [id]);
@@ -118,7 +118,7 @@ export default function ProductForm() {
     };
 
     method(url, payload)
-      .then(() => navigate("/products"))
+      .then(() => navigate("/productos"))
       .catch((err) => console.error("Error al guardar:", err));
   };
 
