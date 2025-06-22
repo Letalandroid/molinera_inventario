@@ -8,7 +8,7 @@ const NavBarLeft = () => {
     {
       name: "Dashboard",
       icon: "fas fa-chart-line",
-      link: "/",
+      link: "/dashboard",
     },
     {
       name: "Reportes",
