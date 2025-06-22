@@ -8,6 +8,7 @@ import UserList from "./pages/UserList";
 import UserProfile from "./pages/UserProfile";
 import ProvidersList from "./pages/ProvidersList";
 import Dashboard from "./pages/Dashboard";
+import AdminRoute from "./components/AdminRoutes";
 
 export default function App() {
   return (
@@ -37,9 +38,9 @@ export default function App() {
         <Route
           path="/proveedores"
           element={
-            <PrivateRoutes>
+            <AdminRoute>
               <ProvidersList />
-            </PrivateRoutes>
+            </AdminRoute>
           }
         />
 
@@ -63,18 +64,18 @@ export default function App() {
         <Route
           path="/usuarios"
           element={
-            <PrivateRoutes>
+            <AdminRoute>
               <UserList />
-            </PrivateRoutes>
+            </AdminRoute>
           }
         />
 
         <Route
           path="/profile/:id"
           element={
-            <PrivateRoutes>
+            <AdminRoute>
               <UserProfile />
-            </PrivateRoutes>
+            </AdminRoute>
           }
         />
       </Routes>
