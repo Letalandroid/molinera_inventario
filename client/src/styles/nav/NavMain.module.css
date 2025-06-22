@@ -3,6 +3,11 @@
   padding: 0;
 }
 
+.nav_container {
+  display: flex;
+  align-items: flex-start;
+}
+
 .icon_menu_container {
   display: flex;
   align-items: center;
@@ -14,11 +19,13 @@
 }
 
 .navSup_container {
-  margin: 0 30px;
-  padding: 15px 0;
+  width: 85%;
+  padding: 15px 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  color: #fff;
+  background-color: #1976d2;
 }
 
 .navSup_user {

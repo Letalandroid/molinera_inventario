@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { type User } from "../types";
 import api from "../api/api";
-import MainNavbar from "../components/MainNavbar";
+import MainNavbar from "../components/nav/MainNavbar";
 import { Container, Typography } from "@mui/material";
 import UserTable from "../components/UserTable";
 

@@ -1,13 +1,12 @@
 // src/components/MainNavbar.tsx
-import {
-  AppBar
-} from "@mui/material";
+import { AppBar } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useContext, type MouseEvent } from "react";
-import { AuthContext } from "../context/AuthContext";
-import api from "../api/api";
-import styles from "../styles/ProductPage.module.css";
-import user_img from '../assets/user.webp';
+import { AuthContext } from "../../context/AuthContext";
+import api from "../../api/api";
+import styles from "../../styles/nav/NavMain.module.css";
+import user_img from "../../assets/user.webp";
+import NavBarLeft from "./NavBarLeft";
 
 export default function MainNavbar() {
   const navigate = useNavigate();
@@ -51,7 +50,8 @@ export default function MainNavbar() {
   }, [isAuthenticated]);
 
   return (
-    <AppBar position="static" color="primary">
+    <div className={styles.nav_container}>
+      <NavBarLeft />
       <div className={styles.navSup_container}>
         <div className={styles.icon_menu_container}>
           <i className="fas fa-bars"></i>
@@ -78,6 +78,6 @@ export default function MainNavbar() {
           )}
         </div>
       </div>
-    </AppBar>
+    </div>
   );
 }

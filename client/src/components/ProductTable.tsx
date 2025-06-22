@@ -20,7 +20,7 @@ export default function ProductTable({ products }: Props) {
   const navigate = useNavigate();
 
   return (
-    <TableContainer component={Paper}>
+    <div>
       <Table size="small">
         <TableHead>
           <TableRow>
@@ -80,6 +80,6 @@ export default function ProductTable({ products }: Props) {
           ))}
         </TableBody>
       </Table>
-    </TableContainer>
+    </div>
   );
 }
