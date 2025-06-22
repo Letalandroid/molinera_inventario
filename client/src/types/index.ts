@@ -34,6 +34,13 @@ export interface Movement {
   date: Date;
 }
 
+export interface Audit {
+  id: number;
+  userName: string;
+  action: string;
+  timestamp: number;
+}
+
 export interface Provider {
   id: number;
   name: string;

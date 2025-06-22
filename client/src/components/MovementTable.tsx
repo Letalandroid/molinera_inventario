@@ -12,7 +12,6 @@ interface Props {
 }
 
 export default function MovementTable({ movements }: Props) {
-
   return (
     <div>
       <Table size="small">
@@ -22,7 +21,7 @@ export default function MovementTable({ movements }: Props) {
             <TableCell sx={{ fontWeight: "bold" }}>Usuario</TableCell>
             <TableCell sx={{ fontWeight: "bold" }}>Producto</TableCell>
             <TableCell sx={{ fontWeight: "bold" }}>Cantidad</TableCell>
-            {/* <TableCell sx={{ fontWeight: "bold" }}>Día</TableCell> */}
+            <TableCell sx={{ fontWeight: "bold" }}>Día</TableCell>
           </TableRow>
         </TableHead>
 
@@ -33,7 +32,9 @@ export default function MovementTable({ movements }: Props) {
               <TableCell>{movement.userName}</TableCell>
               <TableCell>{movement.productName}</TableCell>
               <TableCell>{movement.quantity}</TableCell>
-              {/* <TableCell>{movement.date}</TableCell> */}
+              <TableCell>
+                {new Date(movement.date).toLocaleDateString()}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
