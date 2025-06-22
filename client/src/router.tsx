@@ -1,5 +1,5 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import PrivateRoute from "./components/PrivateRoutes";
+import PrivateRoutes from "./components/PrivateRoutes";
 import ProductList from "./pages/ProductList";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
@@ -19,62 +19,62 @@ export default function App() {
         <Route
           path="/dashboard"
           element={
-            <PrivateRoute>
+            <PrivateRoutes>
               <Dashboard />
-            </PrivateRoute>
+            </PrivateRoutes>
           }
         />
 
         <Route
           path="/productos"
           element={
-            <PrivateRoute>
+            <PrivateRoutes>
               <ProductList />
-            </PrivateRoute>
+            </PrivateRoutes>
           }
         />
 
         <Route
           path="/proveedores"
           element={
-            <PrivateRoute>
+            <PrivateRoutes>
               <ProvidersList />
-            </PrivateRoute>
+            </PrivateRoutes>
           }
         />
 
         <Route
           path="/products/create"
           element={
-            <PrivateRoute>
+            <PrivateRoutes>
               <ProductForm />
-            </PrivateRoute>
+            </PrivateRoutes>
           }
         />
         <Route
           path="/products/edit/:id"
           element={
-            <PrivateRoute>
+            <PrivateRoutes>
               <ProductForm />
-            </PrivateRoute>
+            </PrivateRoutes>
           }
         />
 
         <Route
           path="/usuarios"
           element={
-            <PrivateRoute>
+            <PrivateRoutes>
               <UserList />
-            </PrivateRoute>
+            </PrivateRoutes>
           }
         />
 
         <Route
           path="/profile/:id"
           element={
-            <PrivateRoute>
+            <PrivateRoutes>
               <UserProfile />
-            </PrivateRoute>
+            </PrivateRoutes>
           }
         />
       </Routes>

@@ -1,18 +1,23 @@
 // src/components/PrivateRoute.tsx
-import { useContext, type JSX } from "react";
-import { Navigate } from "react-router-dom";
+import { useContext, type ReactNode } from "react";
+import { Navigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
-interface Props {
-  children: JSX.Element;
+interface PrivateRouteProps {
+  children: ReactNode;
 }
 
-export default function PrivateRoute({ children }: Props) {
-  const { isAuthenticated } = useContext(AuthContext);
+export default function PrivateRoute({ children }: PrivateRouteProps) {
+  const { isAdmin, isAuthenticated } = useContext(AuthContext);
+  const location = useLocation();
 
-  if (!isAuthenticated) {
-    return <Navigate to="/" replace />;
+  if (!isAdmin) {
+    return <Navigate to="/dashboard" replace state={{ from: location }} />;
   }
 
-  return children;
+  if (!isAuthenticated) {
+    return <Navigate to="/" replace state={{ from: location }} />;
+  }
+
+  return <>{children}</>;
 }
