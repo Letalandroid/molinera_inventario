@@ -31,7 +31,7 @@ const NavBarLeft = () => {
     {
       name: "Productos",
       icon: "fas fa-box",
-      link: "/prodductos",
+      link: "/productos",
     },
     {
       name: "Gestión de usuarios",

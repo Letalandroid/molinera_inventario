@@ -59,15 +59,6 @@ export default function MainNavbar() {
         </div>
 
         <div className={styles.navSup_user}>
-          <div>
-            <a onClick={() => navigate("/products")}>Productos</a>
-          </div>
-
-          {/* Solo para ADMINISTRADOR */}
-          {user?.role === "ADMINISTRADOR" && (
-            <a onClick={() => navigate("/users")}>Usuarios</a>
-          )}
-
           {/* Mostrar nombre de usuario si está autenticado */}
           {profile && (
             <div className={styles.navProfile}>

@@ -26,6 +26,12 @@ export interface User {
   Profile?: { name: string };
 }
 
+export interface Provider {
+  id: number;
+  name: string;
+  contact: string;
+}
+
 export interface UserLogin {
   email: string;
   password: string;

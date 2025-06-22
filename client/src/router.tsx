@@ -6,6 +6,7 @@ import Register from "./auth/Register";
 import ProductForm from "./pages/ProductForm";
 import UserList from "./pages/UserList";
 import UserProfile from "./pages/UserProfile";
+import ProvidersList from "./pages/ProvidersList";
 
 export default function App() {
   return (
@@ -19,6 +20,15 @@ export default function App() {
           element={
             <PrivateRoute>
               <ProductList />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/proveedores"
+          element={
+            <PrivateRoute>
+              <ProvidersList />
             </PrivateRoute>
           }
         />
