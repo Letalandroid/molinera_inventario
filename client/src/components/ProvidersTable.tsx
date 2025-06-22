@@ -4,18 +4,14 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Button,
-  Box,
 } from "@mui/material";
 import { type Provider } from "../types";
-import { useNavigate } from "react-router-dom";
 
 interface Props {
   providers: Provider[];
 }
 
 export default function ProductTable({ providers }: Props) {
-  const navigate = useNavigate();
 
   return (
     <div>

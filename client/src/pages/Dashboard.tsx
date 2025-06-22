@@ -1,6 +1,6 @@
 import api from "../api/api";
 import MainNavbar from "../components/nav/MainNavbar";
-import { Container, Typography } from "@mui/material";
+import { Container } from "@mui/material";
 import styles from "../styles/Dashboard.module.css";
 import type { DashProp } from "../components/DashCard";
 import DashCard from "../components/DashCard";
