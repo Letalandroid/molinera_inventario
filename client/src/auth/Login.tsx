@@ -28,9 +28,9 @@ export default function Login() {
       // Aquí puedes redirigir según el rol si deseas:
       const decoded = JSON.parse(atob(token.split('.')[1])); // decodifica payload base64
       if (decoded.role === "ADMINISTRADOR") {
-        navigate("/admin");
+        navigate("/dashboard");
       } else if (decoded.role === "EMPLEADO") {
-        navigate("/productos");
+        navigate("/dashboard");
       } else {
         setError("Tu cuenta no tiene acceso.");
       }
