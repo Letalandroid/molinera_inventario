@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Put,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -89,9 +90,9 @@ export class ProductsController {
   @ApiOperation({ summary: 'Crear un nuevo producto' }) // Descripción breve del endpoint
   @ApiResponse({ status: 200, description: 'Crea un nuevo producto' }) // Respuesta esperada
   @ApiResponse({ status: 400, description: 'Error al crear el producto.' }) // Respuesta en caso de error
-  async createProduct(@Body() p: ProductCreate) {
+  async createProduct(@Body() p: ProductCreate, @Req() req) {
     try {
-      return await this.prodService.createProduct(p);
+      return await this.prodService.createProduct(p, req);
     } catch (error) {
       throw new NotFoundException({
         status: 400,
@@ -116,9 +117,9 @@ export class ProductsController {
   @ApiOperation({ summary: 'Actualiza el producto' }) // Descripción breve del endpoint
   @ApiResponse({ status: 200, description: 'Actualiza un producto' }) // Respuesta esperada
   @ApiResponse({ status: 400, description: 'Error al actualizar el producto.' }) // Respuesta en caso de error
-  async updateProduct(@Param('id') id: string, @Body() p: ProductUpdate) {
+  async updateProduct(@Param('id') id: string, @Body() p: ProductUpdate, @Req() req) {
     try {
-      return await this.prodService.updateProduct(parseInt(id), p);
+      return await this.prodService.updateProduct(parseInt(id), p, req);
     } catch (error) {
       throw new NotFoundException({
         status: 400,

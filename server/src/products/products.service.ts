@@ -1,11 +1,20 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  Req,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { ProductCreate, ProductUpdate } from '../../src/models/Product';
 import { Prisma } from '@prisma/client';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class ProductsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private jwt: JwtService,
+  ) {}
 
   getProducts() {
     return this.prisma.product.findMany({
@@ -84,8 +93,18 @@ export class ProductsService {
     return flattenedData;
   }
 
-  async createProduct(p: ProductCreate) {
-    const userId = 1;
+  async createProduct(p: ProductCreate, @Req() req) {
+    const authHeader = req.headers['authorization'];
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      throw new UnauthorizedException(
+        'Token no proporcionado o formato inválido.',
+      );
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+
+    const { userId } = this.jwt.decode(token);
 
     const data: Prisma.ProductCreateInput = {
       title: p.title,
@@ -114,14 +133,26 @@ export class ProductsService {
     return producto;
   }
 
-  async updateProduct(id: number, p: ProductUpdate) {
+  async updateProduct(id: number, p: ProductUpdate, @Req() req) {
+
+    const authHeader = req.headers['authorization'];
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      throw new UnauthorizedException(
+        'Token no proporcionado o formato inválido.',
+      );
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+
+    const { userId } = this.jwt.decode(token);
+
     const beforeProduct = await this.prisma.product.findFirst({
       where: {
         id,
       },
     });
 
-    const userId = 1;
 
     const data: Prisma.ProductUpdateInput = {
       ...(p.title && { title: p.title }),
