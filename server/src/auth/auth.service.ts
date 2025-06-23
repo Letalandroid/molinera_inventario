@@ -38,6 +38,13 @@ export class AuthService {
 
       await this.prisma.profile.create({ data: profile });
 
+      await this.prisma.auditLog.create({
+        data: {
+          userId: id,
+          action: `El usuario ${data.name} con correo ${data.email} se acaba de registrar.`,
+        },
+      });
+
       return {
         status: 201,
         message: 'Usuario registrado exitosamente',
@@ -136,6 +143,13 @@ export class AuthService {
         role: foundUser.role,
         email: foundUser.email,
       };
+
+      await this.prisma.auditLog.create({
+        data: {
+          userId: foundUser.id,
+          action: `El usuario ${profile?.name} acaba de ingresar.`,
+        },
+      });
 
       return {
         token: await this.jwtService.signAsync(
