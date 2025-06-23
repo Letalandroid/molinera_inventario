@@ -1,8 +1,9 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { UserLogin, User } from '../models/User';
 import { genHash } from '../utils/bcrypt';
+import { AdminGuard } from 'src/guards/auth/admin.guard';
 
 @ApiTags('Auth') // Categoría para agrupar los endpoints relacionados con autenticación
 @Controller('auth')
@@ -10,6 +11,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
+  @UseGuards(AdminGuard)
   @ApiOperation({ summary: 'Registrar un nuevo usuario' }) // Descripción breve del endpoint
   @ApiResponse({ status: 201, description: 'Usuario registrado exitosamente.' }) // Respuesta esperada
   @ApiResponse({
