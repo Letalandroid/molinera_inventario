@@ -2,10 +2,11 @@ import type { ButtonNavProps } from "./Button";
 import ButtonNav from "./Button";
 import styles from "../../styles/nav/NavLeft.module.css";
 
-//
-const NavBarLeft = () => {
+interface NavLeftI {
+  isOpen: boolean;
+}
 
-
+const NavBarLeft = ({ isOpen }: NavLeftI) => {
   const pages: ButtonNavProps[] = [
     {
       name: "Dashboard",
@@ -48,15 +49,22 @@ const NavBarLeft = () => {
   ];
 
   return (
-    <div className={styles.navLeft_container}>
+    <div
+      style={isOpen ? { width: "15%" } : { width: 0 }}
+      className={styles.navLeft_container}
+    >
       <h3 className={styles.navLeft_header}>Inventario</h3>
       <div className={styles.btnContainer}>
         {pages.map((p) => {
-          return <ButtonNav key={p.name} name={p.name} icon={p.icon} link={p.link} />;
+          return (
+            <ButtonNav key={p.name} name={p.name} icon={p.icon} link={p.link} />
+          );
         })}
         <h5 className={styles.subtitle}>Mantenimiento</h5>
         {pages_maintence.map((p) => {
-          return <ButtonNav key={p.name} name={p.name} icon={p.icon} link={p.link} />;
+          return (
+            <ButtonNav key={p.name} name={p.name} icon={p.icon} link={p.link} />
+          );
         })}
       </div>
     </div>

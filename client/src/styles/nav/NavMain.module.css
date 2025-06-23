@@ -15,6 +15,7 @@
 
   i {
     font-size: 20px;
+    cursor: pointer;
   }
 }
 
@@ -28,6 +29,7 @@
   align-items: center;
   color: #fff;
   background-color: #1976d2;
+  transition: width .5s;
 }
 
 .navSup_user {

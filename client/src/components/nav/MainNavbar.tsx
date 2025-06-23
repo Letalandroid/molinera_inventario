@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 export default function MainNavbar() {
   const { logout, isAuthenticated, user } = useContext(AuthContext);
   const [closedSession, setClosedSession] = useState(false);
+  const [isOpenLeft, setIsOpenLeft] = useState(true);
   const navigate = useNavigate();
 
   const [profile, setProfile] = useState<{ name: string } | null>(null);
@@ -38,10 +39,16 @@ export default function MainNavbar() {
 
   return (
     <div className={styles.nav_container}>
-      <NavBarLeft />
-      <div className={styles.navSup_container}>
+      <NavBarLeft isOpen={isOpenLeft} />
+      <div
+        style={isOpenLeft ? { width: "85%" } : { width: "100%" }}
+        className={styles.navSup_container}
+      >
         <div className={styles.icon_menu_container}>
-          <i className="fas fa-bars"></i>
+          <i
+            onClick={() => setIsOpenLeft(!isOpenLeft)}
+            className="fas fa-bars"
+          ></i>
           <h4>Inventario Hellen Mabel</h4>
         </div>
 
