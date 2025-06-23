@@ -15,10 +15,10 @@ const ButtonNav = ({ name, icon, link }: ButtonNavProps) => {
   };
 
   return (
-    <div className={styles.btn_nav}>
+    <a onClick={() => goTo(link)} className={styles.btn_nav}>
       <i className={icon}></i>
-      <a onClick={() => goTo(link)}>{name}</a>
-    </div>
+      <p>{name}</p>
+    </a>
   );
 };
 
