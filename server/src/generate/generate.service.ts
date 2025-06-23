@@ -1,18 +1,37 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Req, UnauthorizedException } from '@nestjs/common';
 import * as XLSX from 'xlsx';
 import { promises as fs } from 'fs';
 import * as path from 'path';
 import { PrismaService } from 'src/prisma.service';
 import { upload, uploadFile } from 'src/utils/uploadFile';
+import { Audit } from 'src/utils/genAudit';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class GenerateService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly audit: Audit,
+    private readonly jwt: JwtService,
+  ) {}
 
   async generateMovement(
     startDate: string,
     endDate: string,
+    @Req() req,
   ): Promise<uploadFile> {
+    const authHeader = req.headers['authorization'];
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      throw new UnauthorizedException(
+        'Token no proporcionado o formato inválido.',
+      );
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+
+    const { userId } = this.jwt.decode(token);
+
     const data = await this.prisma.movement.findMany({
       where: {
         date: {
@@ -96,6 +115,13 @@ export class GenerateService {
       // ✅ Eliminar el archivo local después de subirlo
       await fs.unlink(filePath);
 
+      await this.prisma.auditLog.create({
+        data: {
+          userId,
+          action: `Generación de reportes en movimientos [${startDate} - ${endDate}]`,
+        },
+      });
+
       // console.log(`Excel file uploaded to Supabase: ${fileUpload.publicUrl}`);
       return fileUpload;
     } catch (error) {
@@ -104,7 +130,19 @@ export class GenerateService {
     }
   }
 
-  async generateStocks(): Promise<uploadFile> {
+  async generateStocks(@Req() req): Promise<uploadFile> {
+    const authHeader = req.headers['authorization'];
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      throw new UnauthorizedException(
+        'Token no proporcionado o formato inválido.',
+      );
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+
+    const { userId } = this.jwt.decode(token);
+
     const data = await this.prisma.product.findMany({
       orderBy: {
         id: 'asc',
@@ -134,8 +172,7 @@ export class GenerateService {
       }));
 
       // 2. Crear el resumen
-      const productosConStockBajo = data
-        .filter((p) => p.stock <= 10)
+      const productosConStockBajo = data.filter((p) => p.stock <= 10);
 
       const resumenTexto = `Cantidad de productos con stock bajo: ${productosConStockBajo.length}`;
 
@@ -184,6 +221,13 @@ export class GenerateService {
 
       // ✅ Eliminar el archivo local después de subirlo
       await fs.unlink(filePath);
+
+      await this.prisma.auditLog.create({
+        data: {
+          userId,
+          action: `Generación de reportes de stocks de productos.`,
+        },
+      });
 
       // console.log(`Excel file uploaded to Supabase: ${fileUpload.publicUrl}`);
       return fileUpload;

@@ -15,20 +15,25 @@
 
   i {
     font-size: 20px;
+    cursor: pointer;
   }
 }
 
 .navSup_container {
+  position: relative;
   width: 85%;
+  height: 80px;
   padding: 15px 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   color: #fff;
   background-color: #1976d2;
+  transition: width .5s;
 }
 
 .navSup_user {
+  cursor: pointer;
   display: flex;
   gap: 20px;
   align-items: center;
@@ -39,25 +44,50 @@
   }
 }
 
-.navProfile {
+.profile_container {
   position: relative;
+}
+
+.user_data {
   display: flex;
+  z-index: 100;
   gap: 5px;
   align-items: center;
   background-color: #fff;
   border-radius: 999px;
   color: #000;
   padding: 10px 10px 10px 35px;
+}
 
-  i {
-    font-size: 20px;
-  }
+.user_data i {
+  font-size: 20px;
+  transition: transform .2s;
+}
 
-  img {
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    left: -10px;
+.user_data img {
+  position: absolute;
+  top: 2px;
+  left: -10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.closed_session {
+  position: absolute;
+  z-index: 5; /* menor que profile_container */
+  top: 100%; /* ajusta para que aparezca visualmente detrás o debajo */
+  left: calc(100% - (190px + (40px / 2)));
+  width: 190px;
+  overflow: hidden;
+  color: #fff;
+  background-color: #f00;
+  font-weight: bold;
+  border-radius: 0 0 8px 8px;
+  transition: height .5s;
+
+  p {
+    text-align: center;
+    margin: 5px 10px;
   }
 }

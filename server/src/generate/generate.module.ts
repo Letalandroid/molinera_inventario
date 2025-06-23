@@ -4,6 +4,7 @@ import { GenerateService } from './generate.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PrismaService } from 'src/prisma.service';
+import { Audit } from 'src/utils/genAudit';
 
 @Module({
   imports: [
@@ -18,6 +19,6 @@ import { PrismaService } from 'src/prisma.service';
     }),
   ],
   controllers: [GenerateController],
-  providers: [GenerateService, PrismaService],
+  providers: [GenerateService, PrismaService, Audit],
 })
 export class GenerateModule {}

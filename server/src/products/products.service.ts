@@ -1,11 +1,20 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  Req,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { ProductCreate, ProductUpdate } from '../../src/models/Product';
 import { Prisma } from '@prisma/client';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class ProductsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private jwt: JwtService,
+  ) {}
 
   getProducts() {
     return this.prisma.product.findMany({
@@ -84,7 +93,19 @@ export class ProductsService {
     return flattenedData;
   }
 
-  createProduct(p: ProductCreate) {
+  async createProduct(p: ProductCreate, @Req() req) {
+    const authHeader = req.headers['authorization'];
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      throw new UnauthorizedException(
+        'Token no proporcionado o formato inválido.',
+      );
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+
+    const { userId } = this.jwt.decode(token);
+
     const data: Prisma.ProductCreateInput = {
       title: p.title,
       description: p.description,
@@ -98,10 +119,46 @@ export class ProductsService {
       Provider: p.providerId ? { connect: { id: p.providerId } } : undefined,
     };
 
-    return this.prisma.product.create({ data });
+    const producto = await this.prisma.product.create({ data });
+
+    await this.prisma.movement.create({
+      data: {
+        type: 'INGRESO',
+        quantity: producto.stock,
+        userId,
+        productId: producto.id,
+      },
+    });
+
+    await this.prisma.auditLog.create({
+      data: {
+        userId,
+        action: `Creación de producto: ${JSON.stringify(p)}`,
+      },
+    });
+
+    return producto;
   }
 
-  updateProduct(id: number, p: ProductUpdate) {
+  async updateProduct(id: number, p: ProductUpdate, @Req() req) {
+    const authHeader = req.headers['authorization'];
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      throw new UnauthorizedException(
+        'Token no proporcionado o formato inválido.',
+      );
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+
+    const { userId } = this.jwt.decode(token);
+
+    const beforeProduct = await this.prisma.product.findFirst({
+      where: {
+        id,
+      },
+    });
+
     const data: Prisma.ProductUpdateInput = {
       ...(p.title && { title: p.title }),
       ...(p.description && { description: p.description }),
@@ -109,12 +166,43 @@ export class ProductsService {
       ...(p.stock && { stock: p.stock }),
       ...(p.createdAt && { createdAt: p.createdAt }),
       ...(typeof p.isActive === 'boolean' && { isActive: p.isActive }),
+      ...(typeof p.categoryId === 'number' && { categoryId: p.categoryId }),
+      ...(typeof p.providerId === 'number' && { providerId: p.providerId }),
     };
 
-    return this.prisma.product.update({
+    const product = await this.prisma.product.update({
       where: { id },
       data,
     });
+
+    if (p.stock && beforeProduct && beforeProduct.stock < p.stock) {
+      await this.prisma.movement.create({
+        data: {
+          type: 'INGRESO',
+          quantity: p.stock - beforeProduct.stock,
+          userId,
+          productId: id,
+        },
+      });
+    } else if (p.stock && beforeProduct && beforeProduct.stock > p.stock) {
+      await this.prisma.movement.create({
+        data: {
+          type: 'SALIDA',
+          quantity: beforeProduct.stock - p.stock,
+          userId,
+          productId: id,
+        },
+      });
+    }
+
+    await this.prisma.auditLog.create({
+      data: {
+        userId,
+        action: `Actualización de productos: ${JSON.stringify(p)}`,
+      },
+    });
+
+    return product;
   }
 
   deleteProduct(id: number) {

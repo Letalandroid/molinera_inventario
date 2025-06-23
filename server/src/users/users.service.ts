@@ -134,8 +134,20 @@ export class UsersService {
     }
   }
 
-  async updateData(id: number, user: UserData) {
+  async updateData(id: number, user: UserData, @Req() req) {
     try {
+      const authHeader = req.headers['authorization'];
+
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        throw new UnauthorizedException(
+          'Token no proporcionado o formato inválido.',
+        );
+      }
+
+      const token = authHeader.replace('Bearer ', '');
+
+      const { userId } = this.jwt.decode(token);
+
       if (!id || !user.role) {
         throw new NotFoundException({
           status: 404,
@@ -157,6 +169,13 @@ export class UsersService {
           message: 'User not found',
         });
       }
+
+      await this.prismaService.auditLog.create({
+        data: {
+          userId,
+          action: `Actualización de datos de usuario: ROLE: ${user.role}, ${user.isActive ? 'y habilitación del usuario.' : 'e inhabilitación del usuario'}`,
+        },
+      });
 
       return {
         status: 200,
