@@ -16,7 +16,6 @@ export class AuthService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
-    private readonly jwtConfig: JWTConfig,
   ) {}
 
   async register(data: User) {
@@ -154,7 +153,6 @@ export class AuthService {
       return {
         token: await this.jwtService.signAsync(
           payload,
-          this.jwtConfig.getConfig(),
         ),
         // user: {
         //   id: foundUser.id,

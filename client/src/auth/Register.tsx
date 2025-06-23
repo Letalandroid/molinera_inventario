@@ -35,7 +35,7 @@ export default function Register() {
 
     try {
       await api.post(`${import.meta.env.VITE_APP_BACK_URL}/auth/register`, formData);
-      navigate("/"); // redirige tras éxito
+      navigate("/usuarios"); // redirige tras éxito
     } catch (err: any) {
       setError(err.response?.data?.message || "Error al registrar");
     }
