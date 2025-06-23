@@ -22,9 +22,9 @@ export default function App() {
         <Route
           path="/register"
           element={
-            <PrivateRoutes>
+            <AdminRoute>
               <Register />
-            </PrivateRoutes>
+            </AdminRoute>
           }
         />
 
