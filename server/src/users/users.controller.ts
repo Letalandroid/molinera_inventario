@@ -104,8 +104,8 @@ export class UsersController {
     description: 'Token JWT en formato Bearer',
     required: true,
   })
-  updateData(@Param('id') id: string, @Body() user: UserData) {
-      return this.userService.updateData(parseInt(id), user);
+  updateData(@Param('id') id: string, @Body() user: UserData, @Req() req) {
+      return this.userService.updateData(parseInt(id), user, req);
   }
 
   @Put(':id/isActive')
