@@ -3,6 +3,7 @@ import {
   Controller,
   NotFoundException,
   Post,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { GenerateService } from './generate.service';
@@ -15,10 +16,11 @@ export class GenerateController {
 
   @Post('movements')
   @UseGuards(EmployeeGuard)
-  async generateMovement(@Body() body: DateRangeDto) {
+  async generateMovement(@Body() body: DateRangeDto, @Req() req) {
     const result = await this.genService.generateMovement(
       body.startDate,
       body.endDate,
+      req
     );
 
     if ('error' in result) {
@@ -33,8 +35,8 @@ export class GenerateController {
 
   @Post('stocks')
   @UseGuards(EmployeeGuard)
-  async generateStocks() {
-    const result = this.genService.generateStocks();
+  async generateStocks(@Req() req) {
+    const result = this.genService.generateStocks(req);
 
     if ('error' in result) {
       throw new NotFoundException({
