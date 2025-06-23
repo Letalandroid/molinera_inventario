@@ -84,7 +84,9 @@ export class ProductsService {
     return flattenedData;
   }
 
-  createProduct(p: ProductCreate) {
+  async createProduct(p: ProductCreate) {
+    const userId = 1;
+
     const data: Prisma.ProductCreateInput = {
       title: p.title,
       description: p.description,
@@ -98,7 +100,18 @@ export class ProductsService {
       Provider: p.providerId ? { connect: { id: p.providerId } } : undefined,
     };
 
-    return this.prisma.product.create({ data });
+    const producto = await this.prisma.product.create({ data });
+
+    await this.prisma.movement.create({
+      data: {
+        type: 'INGRESO',
+        quantity: producto.stock,
+        userId,
+        productId: producto.id,
+      },
+    });
+
+    return producto;
   }
 
   async updateProduct(id: number, p: ProductUpdate) {
