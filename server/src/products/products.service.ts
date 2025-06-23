@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { ProductCreate, ProductUpdate } from '../../src/models/Product';
 import { Prisma } from '@prisma/client';
@@ -101,7 +101,15 @@ export class ProductsService {
     return this.prisma.product.create({ data });
   }
 
-  updateProduct(id: number, p: ProductUpdate) {
+  async updateProduct(id: number, p: ProductUpdate) {
+    const beforeProduct = await this.prisma.product.findFirst({
+      where: {
+        id,
+      },
+    });
+
+    const userId = 1;
+
     const data: Prisma.ProductUpdateInput = {
       ...(p.title && { title: p.title }),
       ...(p.description && { description: p.description }),
@@ -109,12 +117,36 @@ export class ProductsService {
       ...(p.stock && { stock: p.stock }),
       ...(p.createdAt && { createdAt: p.createdAt }),
       ...(typeof p.isActive === 'boolean' && { isActive: p.isActive }),
+      ...(typeof p.categoryId === 'number' && { categoryId: p.categoryId }),
+      ...(typeof p.providerId === 'number' && { providerId: p.providerId }),
     };
 
-    return this.prisma.product.update({
+    const product = await this.prisma.product.update({
       where: { id },
       data,
     });
+
+    if (p.stock && beforeProduct && beforeProduct.stock < p.stock) {
+      await this.prisma.movement.create({
+        data: {
+          type: 'INGRESO',
+          quantity: p.stock - beforeProduct.stock,
+          userId,
+          productId: id,
+        },
+      });
+    } else if (p.stock && beforeProduct && beforeProduct.stock > p.stock) {
+      await this.prisma.movement.create({
+        data: {
+          type: 'SALIDA',
+          quantity: beforeProduct.stock - p.stock,
+          userId,
+          productId: id,
+        },
+      });
+    }
+
+    return product;
   }
 
   deleteProduct(id: number) {

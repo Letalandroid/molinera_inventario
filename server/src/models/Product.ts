@@ -85,31 +85,26 @@ export class ProductCreate {
 
 export class ProductUpdate {
   @ApiProperty({ description: 'Nombre del producto' })
-  @IsNotEmpty()
   @IsString()
   title: string = '';
 
   @ApiProperty({ description: 'Descripción del producto', required: false })
-  @IsNotEmpty()
   @IsString()
   description?: string = '';
 
   @ApiProperty({ description: 'Precio del producto', required: false })
-  @IsNotEmpty()
   @IsNumber()
-  price?: number;
+  price?: number = 0;
 
   @ApiProperty({
     description: 'Cantidad en stock del producto',
     required: false,
   })
-  @IsNotEmpty()
   @IsNumber()
   stock?: number;
 
-  @IsNotEmpty()
   @IsBoolean()
-  isActive?: boolean;
+  isActive?: boolean = true;
 
   @ApiProperty({
     description: 'Fecha de creación del producto',
@@ -117,20 +112,16 @@ export class ProductUpdate {
   })
   createdAt?: Date;
 
-  @IsNotEmpty()
   @IsNumber()
   minStock?: number = 10;
 
-  @IsNotEmpty()
   @IsString()
   location?: string = 'Default Location';
 
-  @IsNotEmpty()
   @IsNumber()
-  categoryId?: number;
+  categoryId?: number = 0;
 
-  @IsNotEmpty()
   @IsNumber()
-  providerId?: number;
+  providerId?: number = 0;
 }
 
