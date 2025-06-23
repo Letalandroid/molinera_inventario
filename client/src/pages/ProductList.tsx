@@ -4,7 +4,7 @@ import { type Product } from "../types";
 import api from "../api/api";
 import ProductTable from "../components/ProductTable";
 import MainNavbar from "../components/nav/MainNavbar";
-import { Button, Container, Typography } from "@mui/material";
+import { Button, Container } from "@mui/material";
 import styles from "../styles/ProductTable.module.css";
 import { useNavigate } from "react-router-dom";
 
