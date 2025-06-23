@@ -130,11 +130,17 @@ export class ProductsService {
       },
     });
 
+    await this.prisma.auditLog.create({
+      data: {
+        userId,
+        action: `Creación de producto: ${JSON.stringify(p)}`,
+      },
+    });
+
     return producto;
   }
 
   async updateProduct(id: number, p: ProductUpdate, @Req() req) {
-
     const authHeader = req.headers['authorization'];
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -152,7 +158,6 @@ export class ProductsService {
         id,
       },
     });
-
 
     const data: Prisma.ProductUpdateInput = {
       ...(p.title && { title: p.title }),
@@ -189,6 +194,13 @@ export class ProductsService {
         },
       });
     }
+
+    await this.prisma.auditLog.create({
+      data: {
+        userId,
+        action: `Actualización de productos: ${JSON.stringify(p)}`,
+      },
+    });
 
     return product;
   }

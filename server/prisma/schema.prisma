@@ -114,7 +114,7 @@ model Movement {
 model AuditLog {
   id        Int      @id @default(autoincrement())
   userId    Int
-  action    String   @db.VarChar(255)
+  action    String   @db.Text
   timestamp DateTime @default(now())
   User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 

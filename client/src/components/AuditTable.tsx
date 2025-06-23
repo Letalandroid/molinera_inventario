@@ -29,7 +29,10 @@ export default function AuditTable({ audits }: Props) {
             <TableRow key={audit.id}>
               <TableCell>{audit.id}</TableCell>
               <TableCell>{audit.userName}</TableCell>
-              <TableCell>{audit.action}</TableCell>
+              <TableCell>
+                {audit.action.slice(0, 100)}
+                {audit.action.length > 100 ? "..." : ""}
+              </TableCell>
               <TableCell>
                 {new Date(audit.timestamp).toLocaleDateString()}
               </TableCell>
