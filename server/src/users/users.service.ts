@@ -146,7 +146,7 @@ export class UsersService {
 
       const token = authHeader.replace('Bearer ', '');
 
-      const { userId } = this.jwt.decode(token);
+      const { userId, email } = this.jwt.decode(token);
 
       if (!id || !user.role) {
         throw new NotFoundException({
@@ -173,7 +173,7 @@ export class UsersService {
       await this.prismaService.auditLog.create({
         data: {
           userId,
-          action: `Actualización de datos de usuario: ROLE: ${user.role}, ${user.isActive ? 'y habilitación del usuario.' : 'e inhabilitación del usuario'}`,
+          action: `Actualización de datos de usuario ${u.email}: ROLE: ${user.role}, ${user.isActive ? 'y habilitación del usuario.' : 'e inhabilitación del usuario'}`,
         },
       });
 

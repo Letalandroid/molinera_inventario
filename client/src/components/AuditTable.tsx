@@ -34,7 +34,8 @@ export default function AuditTable({ audits }: Props) {
                 {audit.action.length > 100 ? "..." : ""}
               </TableCell>
               <TableCell>
-                {new Date(audit.timestamp).toLocaleDateString()}
+                {`${new Date(audit.timestamp).toLocaleDateString()}
+                ${new Date(audit.timestamp).toLocaleTimeString()}`}
               </TableCell>
             </TableRow>
           ))}

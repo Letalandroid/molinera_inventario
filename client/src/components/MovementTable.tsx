@@ -33,7 +33,8 @@ export default function MovementTable({ movements }: Props) {
               <TableCell>{movement.productName}</TableCell>
               <TableCell>{movement.quantity}</TableCell>
               <TableCell>
-                {new Date(movement.date).toLocaleDateString()}
+                {`${new Date(movement.date).toLocaleDateString()}
+                ${new Date(movement.date).toLocaleTimeString()}`}
               </TableCell>
             </TableRow>
           ))}
