@@ -145,9 +145,9 @@ export class ProductsController {
   @ApiOperation({ summary: 'Elimina el producto' }) // Descripción breve del endpoint
   @ApiResponse({ status: 200, description: 'Elimina un producto' }) // Respuesta esperada
   @ApiResponse({ status: 400, description: 'Error al eliminar el producto.' }) // Respuesta en caso de error
-  async deleteProduct(@Param('id') id: string) {
+  async deleteProduct(@Param('id') id: string, @Req() req) {
     try {
-      await this.prodService.deleteProduct(parseInt(id));
+      await this.prodService.deleteProduct(parseInt(id), req);
 
       return {
         res: 'ok',
@@ -165,6 +165,7 @@ export class ProductsController {
       throw new NotFoundException({
         status: 400,
         message: `Error al eliminar el producto: ${error}`,
+        error,
       });
     }
   }

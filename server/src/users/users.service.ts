@@ -11,7 +11,10 @@ import {
   UserChangeRole,
   UserData,
 } from '../../src/models/User';
-import { PrismaClientValidationError } from '@prisma/client/runtime/library';
+import {
+  PrismaClientKnownRequestError,
+  PrismaClientValidationError,
+} from '@prisma/client/runtime/library';
 import { Role } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
 
@@ -194,6 +197,45 @@ export class UsersService {
         message: 'User not found',
         error,
       });
+    }
+  }
+
+  async deleteUser(id: number, @Req() req) {
+    try {
+      const authHeader = req.headers['authorization'];
+
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        throw new UnauthorizedException(
+          'Token no proporcionado o formato inválido.',
+        );
+      }
+
+      const token = authHeader.replace('Bearer ', '');
+
+      const { userId } = this.jwt.decode(token);
+
+      const user = await this.prismaService.user.delete({
+        where: {
+          id,
+        },
+      });
+
+      await this.prismaService.auditLog.create({
+        data: {
+          userId,
+          action: `Eliminación usuario ${id}.`,
+        },
+      });
+
+      return { message: `Usuario [${id}] eliminado correctamente` };
+
+    } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError) {
+        throw new NotFoundException({
+          error,
+          message: 'Usuario no encontrado',
+        });
+      }
     }
   }
 }

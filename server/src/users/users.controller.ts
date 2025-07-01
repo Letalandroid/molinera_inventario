@@ -9,11 +9,23 @@ import {
   Body,
   Put,
   Req,
+  Delete,
+  NotFoundException,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiHeader, ApiBearerAuth } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiHeader,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { UsersService } from './users.service';
 import { AdminGuard } from '../guards/auth/admin.guard';
-import { UserChangeIsActive, UserChangeRole, UserData } from '../../src/models/User';
+import {
+  UserChangeIsActive,
+  UserChangeRole,
+  UserData,
+} from '../../src/models/User';
 import { EmployeeGuard } from 'src/guards/auth/employee.guard';
 
 @ApiTags('Users') // Categoría para agrupar los endpoints relacionados con usuarios
@@ -95,9 +107,15 @@ export class UsersController {
   })
   @ApiTags('Users')
   @ApiOperation({ summary: 'Cambiar la data de un usuario' })
-  @ApiResponse({ status: 200, description: 'Data del usuario actualizado exitosamente.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Data del usuario actualizado exitosamente.',
+  })
   @ApiResponse({ status: 404, description: 'Usuario no encontrado.' })
-  @ApiResponse({ status: 403, description: 'No tienes permiso para acceder a este recurso.' })
+  @ApiResponse({
+    status: 403,
+    description: 'No tienes permiso para acceder a este recurso.',
+  })
   @ApiResponse({ status: 401, description: 'Token no válido o no encontrado.' })
   @ApiHeader({
     name: 'Authorization',
@@ -105,7 +123,7 @@ export class UsersController {
     required: true,
   })
   updateData(@Param('id') id: string, @Body() user: UserData, @Req() req) {
-      return this.userService.updateData(parseInt(id), user, req);
+    return this.userService.updateData(parseInt(id), user, req);
   }
 
   @Put(':id/isActive')
@@ -118,9 +136,15 @@ export class UsersController {
   })
   @ApiTags('Users')
   @ApiOperation({ summary: 'Cambiar el estado activo de un usuario' })
-  @ApiResponse({ status: 200, description: 'Estado activo del usuario actualizado exitosamente.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Estado activo del usuario actualizado exitosamente.',
+  })
   @ApiResponse({ status: 404, description: 'Usuario no encontrado.' })
-  @ApiResponse({ status: 403, description: 'No tienes permiso para acceder a este recurso.' })
+  @ApiResponse({
+    status: 403,
+    description: 'No tienes permiso para acceder a este recurso.',
+  })
   @ApiResponse({ status: 401, description: 'Token no válido o no encontrado.' })
   @ApiHeader({
     name: 'Authorization',
@@ -128,7 +152,7 @@ export class UsersController {
     required: true,
   })
   changeIsActive(@Param('id') id: string, @Body() user: UserChangeIsActive) {
-      return this.userService.changeIsActive(parseInt(id), user);
+    return this.userService.changeIsActive(parseInt(id), user);
   }
 
   @Put(':id/role')
@@ -141,9 +165,15 @@ export class UsersController {
   })
   @ApiTags('Users')
   @ApiOperation({ summary: 'Cambiar el rol de un usuario' })
-  @ApiResponse({ status: 200, description: 'Rol del usuario actualizado exitosamente.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Rol del usuario actualizado exitosamente.',
+  })
   @ApiResponse({ status: 404, description: 'Usuario no encontrado.' })
-  @ApiResponse({ status: 403, description: 'No tienes permiso para acceder a este recurso.' })
+  @ApiResponse({
+    status: 403,
+    description: 'No tienes permiso para acceder a este recurso.',
+  })
   @ApiResponse({ status: 401, description: 'Token no válido o no encontrado.' })
   @ApiHeader({
     name: 'Authorization',
@@ -151,6 +181,39 @@ export class UsersController {
     required: true,
   })
   changeRole(@Param('id') id: string, @Body() user: UserChangeRole) {
-      return this.userService.changeRole(parseInt(id), user);
+    return this.userService.changeRole(parseInt(id), user);
+  }
+
+  @Delete(':id')
+  @UseGuards(AdminGuard)
+  @ApiBearerAuth()
+  @ApiHeader({
+    name: 'Authorization',
+    description: 'Token JWT en formato Bearer',
+    required: true,
+  })
+  @ApiTags('Users')
+  @ApiOperation({ summary: 'Eliminar un usuario' })
+  @ApiResponse({ status: 200, description: 'Usuario eliminado exitosamente.' })
+  @ApiResponse({ status: 404, description: 'Usuario no encontrado.' })
+  @ApiResponse({
+    status: 403,
+    description: 'No tienes permiso para acceder a este recurso.',
+  })
+  @ApiResponse({ status: 401, description: 'Token no válido o no encontrado.' })
+  @ApiHeader({
+    name: 'Authorization',
+    description: 'Token JWT en formato Bearer',
+    required: true,
+  })
+  deleteUser(@Param('id') id: string, @Req() req) {
+    try {
+      return this.userService.deleteUser(parseInt(id), req);
+    } catch (error) {
+      throw new NotFoundException({
+        error,
+        message: 'Usuario no encontrado',
+      });
+    }
   }
 }

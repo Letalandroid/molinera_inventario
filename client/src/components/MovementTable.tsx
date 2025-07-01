@@ -27,7 +27,7 @@ export default function MovementTable({ movements }: Props) {
 
         <TableBody>
           {movements.map((movement) => (
-            <TableRow key={movement.productName}>
+            <TableRow key={`${movement.productName} - ${movement.date}`}>
               <TableCell>{movement.type}</TableCell>
               <TableCell>{movement.userName}</TableCell>
               <TableCell>{movement.productName}</TableCell>

@@ -19,7 +19,7 @@ export class ProductsService {
   getProducts() {
     return this.prisma.product.findMany({
       orderBy: {
-        id: 'asc',
+        createdAt: 'desc',
       },
       include: {
         Category: {
@@ -205,9 +205,50 @@ export class ProductsService {
     return product;
   }
 
-  deleteProduct(id: number) {
-    return this.prisma.product.delete({
-      where: { id },
-    });
+  async deleteProduct(id: number, @Req() req) {
+    try {
+      const authHeader = req.headers['authorization'];
+
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        throw new UnauthorizedException(
+          'Token no proporcionado o formato inválido.',
+        );
+      }
+
+      const token = authHeader.replace('Bearer ', '');
+
+      const { userId } = this.jwt.decode(token);
+
+      const product = await this.prisma.product.delete({
+        where: { id },
+      });
+
+      if (!product || !product.id) {
+        throw new NotFoundException('Producto no válido');
+      }
+
+      // await this.prisma.movement.create({
+      //   data: {
+      //     type: 'SALIDA',
+      //     quantity: product?.stock,
+      //     userId,
+      //     productId: product?.id,
+      //   },
+      // });
+
+      await this.prisma.auditLog.create({
+        data: {
+          userId,
+          action: `Eliminación de producto: ${JSON.stringify(product)}`,
+        },
+      });
+
+      return product;
+    } catch (error) {
+      throw new NotFoundException({
+        status: 400,
+        message: `Error al eliminar el producto: ${error}`,
+      });
+    }
   }
 }

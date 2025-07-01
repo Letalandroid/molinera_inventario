@@ -12,9 +12,10 @@ import { useNavigate } from "react-router-dom";
 
 interface Props {
   products: Product[];
+  onDeleteClick: (productId: string, productName: string) => void;
 }
 
-export default function ProductTable({ products }: Props) {
+export default function ProductTable({ products, onDeleteClick }: Props) {
   const navigate = useNavigate();
 
   return (
@@ -66,13 +67,23 @@ export default function ProductTable({ products }: Props) {
                 </Box>
               </TableCell>
               <TableCell>
-                <Button
-                  variant="outlined"
-                  size="small"
-                  onClick={() => navigate(`/products/edit/${product.id}`)}
-                >
-                  Editar
-                </Button>
+                <Box sx={{ display: "flex", gap: 1 }}>
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    onClick={() => navigate(`/products/edit/${product.id}`)}
+                  >
+                    Editar
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    color="error"
+                    onClick={() => onDeleteClick(product.id.toString(), product.title)}
+                  >
+                    Eliminar
+                  </Button>
+                </Box>
               </TableCell>
             </TableRow>
           ))}
