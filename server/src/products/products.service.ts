@@ -19,7 +19,7 @@ export class ProductsService {
   getProducts() {
     return this.prisma.product.findMany({
       orderBy: {
-        id: 'asc',
+        createdAt: 'desc',
       },
       include: {
         Category: {
