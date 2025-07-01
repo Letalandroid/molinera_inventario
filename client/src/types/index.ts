@@ -45,7 +45,7 @@ export interface Audit {
 export interface Provider {
   id: number;
   name: string;
-  contact: string;
+  contact?: string | null;
 }
 
 export interface UserLogin {
