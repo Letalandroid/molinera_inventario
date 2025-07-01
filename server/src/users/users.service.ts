@@ -11,7 +11,10 @@ import {
   UserChangeRole,
   UserData,
 } from '../../src/models/User';
-import { PrismaClientValidationError } from '@prisma/client/runtime/library';
+import {
+  PrismaClientKnownRequestError,
+  PrismaClientValidationError,
+} from '@prisma/client/runtime/library';
 import { Role } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
 
@@ -194,6 +197,29 @@ export class UsersService {
         message: 'User not found',
         error,
       });
+    }
+  }
+
+  async deleteUser(id: number) {
+    try {
+      const user = await this.prismaService.user.delete({
+        where: {
+          id,
+        },
+      });
+
+      if (user) {
+        return {
+          message: `Usuario [${id}] eliminado correctamente`,
+        };
+      }
+    } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError) {
+        throw new NotFoundException({
+          error,
+          message: 'Usuario no encontrado',
+        });
+      }
     }
   }
 }
