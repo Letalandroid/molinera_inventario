@@ -191,7 +191,7 @@ export default function ProductForm() {
           <Select
             labelId="category-label"
             name="categoryId"
-            value={product.categoryId}
+            value={product.categoryId || ''}
             onChange={handleSelectChange}
             required
           >
@@ -208,7 +208,7 @@ export default function ProductForm() {
           <Select
             labelId="provider-label"
             name="providerId"
-            value={product.providerId}
+            value={product.providerId || ''}
             onChange={handleSelectChange} // ✅ usa el handler correcto
             required
           >
