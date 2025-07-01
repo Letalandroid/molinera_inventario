@@ -27,7 +27,6 @@ import {
   UserData,
 } from '../../src/models/User';
 import { EmployeeGuard } from 'src/guards/auth/employee.guard';
-import { PrismaClientKnownRequestError } from 'node_modules/@prisma/client/runtime/library';
 
 @ApiTags('Users') // Categoría para agrupar los endpoints relacionados con usuarios
 @Controller('users')
@@ -207,9 +206,9 @@ export class UsersController {
     description: 'Token JWT en formato Bearer',
     required: true,
   })
-  deleteUser(@Param('id') id: string) {
+  deleteUser(@Param('id') id: string, @Req() req) {
     try {
-      return this.userService.deleteUser(parseInt(id));
+      return this.userService.deleteUser(parseInt(id), req);
     } catch (error) {
       throw new NotFoundException({
         error,

@@ -200,19 +200,35 @@ export class UsersService {
     }
   }
 
-  async deleteUser(id: number) {
+  async deleteUser(id: number, @Req() req) {
     try {
+      const authHeader = req.headers['authorization'];
+
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        throw new UnauthorizedException(
+          'Token no proporcionado o formato inválido.',
+        );
+      }
+
+      const token = authHeader.replace('Bearer ', '');
+
+      const { userId } = this.jwt.decode(token);
+
       const user = await this.prismaService.user.delete({
         where: {
           id,
         },
       });
 
-      if (user) {
-        return {
-          message: `Usuario [${id}] eliminado correctamente`,
-        };
-      }
+      await this.prismaService.auditLog.create({
+        data: {
+          userId,
+          action: `Eliminación usuario ${id}.`,
+        },
+      });
+
+      return { message: `Usuario [${id}] eliminado correctamente` };
+
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
         throw new NotFoundException({
