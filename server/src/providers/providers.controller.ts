@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
 import {
   ApiTags,
   ApiOperation,
@@ -107,8 +107,8 @@ export class ProvidersController {
     description: 'Proveedor añadido exitosamente.',
   }) // Respuesta esperada
   @ApiResponse({ status: 500, description: 'Error interno del servidor.' }) // Respuesta en caso de error
-  async create(@Body() prov: ProvidersCreate) {
-    return await this.providerService.create(prov);
+  async create(@Body() prov: ProvidersCreate, @Req() req) {
+    return await this.providerService.create(prov, req);
   }
 
   @Put(':id')
@@ -119,8 +119,8 @@ export class ProvidersController {
     description: 'Proveedor editado exitosamente.',
   }) // Respuesta esperada
   @ApiResponse({ status: 500, description: 'Error interno del servidor.' }) // Respuesta en caso de error
-  async edit(@Param('id') id, @Body() prov: ProvidersCreate) {
-    return await this.providerService.edit(parseInt(id), prov);
+  async edit(@Param('id') id, @Body() prov: ProvidersCreate, @Req() req) {
+    return await this.providerService.edit(parseInt(id), prov, req);
   }
 
   @Delete(':id')
@@ -131,7 +131,7 @@ export class ProvidersController {
     description: 'Proveedor eliminado exitosamente.',
   }) // Respuesta esperada
   @ApiResponse({ status: 500, description: 'Error interno del servidor.' }) // Respuesta en caso de error
-  async delete(@Param('id') id) {
-    return await this.providerService.delete(parseInt(id));
+  async delete(@Param('id') id, @Req() req) {
+    return await this.providerService.delete(parseInt(id), req);
   }
 }
