@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import {
   ApiTags,
   ApiOperation,
@@ -10,6 +10,7 @@ import {
 } from '@nestjs/swagger';
 import { ProvidersService } from './providers.service';
 import { AdminGuard } from 'src/guards/auth/admin.guard';
+import { ProvidersCreate } from 'src/models/Providers';
 
 /**
  * Controlador para la gestión de proveedores
@@ -96,5 +97,41 @@ export class ProvidersController {
   })
   get() {
     return this.providerService.get();
+  }
+
+  @Post()
+  @UseGuards(AdminGuard)
+  @ApiOperation({ summary: 'Añadir un proveedor' }) // Descripción breve del endpoint
+  @ApiResponse({
+    status: 200,
+    description: 'Proveedor añadido exitosamente.',
+  }) // Respuesta esperada
+  @ApiResponse({ status: 500, description: 'Error interno del servidor.' }) // Respuesta en caso de error
+  async create(@Body() prov: ProvidersCreate) {
+    return await this.providerService.create(prov);
+  }
+
+  @Put(':id')
+  @UseGuards(AdminGuard)
+  @ApiOperation({ summary: 'Editar un proveedor' }) // Descripción breve del endpoint
+  @ApiResponse({
+    status: 200,
+    description: 'Proveedor editado exitosamente.',
+  }) // Respuesta esperada
+  @ApiResponse({ status: 500, description: 'Error interno del servidor.' }) // Respuesta en caso de error
+  async edit(@Param('id') id, @Body() prov: ProvidersCreate) {
+    return await this.providerService.edit(parseInt(id), prov);
+  }
+
+  @Delete(':id')
+  @UseGuards(AdminGuard)
+  @ApiOperation({ summary: 'Eliminar un proveedor' }) // Descripción breve del endpoint
+  @ApiResponse({
+    status: 200,
+    description: 'Proveedor eliminado exitosamente.',
+  }) // Respuesta esperada
+  @ApiResponse({ status: 500, description: 'Error interno del servidor.' }) // Respuesta en caso de error
+  async delete(@Param('id') id) {
+    return await this.providerService.delete(parseInt(id));
   }
 }
