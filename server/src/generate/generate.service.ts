@@ -188,10 +188,6 @@ export class GenerateService {
         origin: 'A3',
       });
 
-      // 6. Definir el rango manualmente (si deseas)
-      const totalRows = flattenedData.length + 2;
-      worksheet['!ref'] = `A1:D${totalRows}`;
-
       // 7. Definir anchos de columna
       worksheet['!cols'] = [
         { width: 10 }, // ID
